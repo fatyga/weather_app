@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:weather_app2/screens/start_screen.dart';
+import 'package:weather_app2/screens/weather_info.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(title: 'Weather App', initialRoute: '/', routes: {
+      '/': (context) => StartScreen(),
+      '/weather': (context) => WeatherInfo()
+    });
+  }
+}
