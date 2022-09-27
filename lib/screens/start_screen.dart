@@ -7,18 +7,16 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  Future<void> setupWeather() async {
-    var instance = Weather();
-    await instance.determinePosition();
-    await instance.getWeather();
-    Navigator.pushReplacementNamed(context, '/weather', arguments: {
-      'data': instance.weatherInfo,
-    });
-  }
+  var instance = Weather();
+  late var value;
 
   @override
   void initState() {
-    setupWeather();
+    value = instance.setupWeather(() {
+      Navigator.pushReplacementNamed(context, '/weather', arguments: {
+        'data': instance.weatherInfo,
+      });
+    });
     super.initState();
   }
 
@@ -29,13 +27,35 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: const <Widget>[
-                Text('Weather App', style: TextStyle(fontSize: 26)),
-                SizedBox(height: 20),
-                CircularProgressIndicator(),
-              ],
-            )
+            const Text('Weather App', style: TextStyle(fontSize: 26)),
+            const SizedBox(height: 20),
+            FutureBuilder(
+                future: value,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Column(
+                        children: <Widget>[
+                          Text(snapshot.error.toString()),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  value = instance.setupWeather(() {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/weather',
+                                        arguments: {
+                                          'data': instance.weatherInfo,
+                                        });
+                                  });
+                                });
+                              },
+                              child: const Text('Try again'))
+                        ],
+                      );
+                    }
+                  }
+                  return CircularProgressIndicator();
+                }),
           ],
         ),
       ),

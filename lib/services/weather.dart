@@ -46,6 +46,14 @@ class Weather {
 
   get getWeather => _getWeather;
 
+  Future<void> _setupWeather(Function fn) async {
+    await determinePosition();
+    await getWeather();
+    fn();
+  }
+
+  get setupWeather => _setupWeather;
+
   void updateWeatherInfo(info) {
     weatherInfo = {
       'icon':
