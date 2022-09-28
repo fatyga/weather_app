@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class Weather {
@@ -54,8 +55,16 @@ class Weather {
 
   get setupWeather => _setupWeather;
 
+  String _formatTime(int unixTime, int timezone) {
+    var date = DateTime.fromMillisecondsSinceEpoch(
+        unixTime * 1000 + timezone * 1000,
+        isUtc: true);
+    return DateFormat.EEEE().add_jm().format(date);
+  }
+
   void updateWeatherInfo(info) {
     weatherInfo = {
+      'time': _formatTime(info['dt'], info['timezone']),
       'icon':
           'http://openweathermap.org/img/wn/${info["weather"][0]["icon"]}@2x.png',
       'description': info['weather'][0]['description'],

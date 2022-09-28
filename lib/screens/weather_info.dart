@@ -19,6 +19,7 @@ class _WeatherInfoState extends State<WeatherInfo> {
           Expanded(
             child: Column(children: [
               Text('${data['data']['locationName']}'),
+              Text(data['data']['time']),
               Image.network(data['data']['icon']),
               Text(data['data']['description']),
               Text('Temperature: ${data['data']['temp']}'),
