@@ -5,9 +5,9 @@ import 'package:weather_app/utils/app_styles.dart';
 
 class WeatherView extends StatefulWidget {
   Weather weather;
-  Function() fn;
+  Function() toUpdate;
 
-  WeatherView({required this.weather, required this.fn});
+  WeatherView({required this.weather, required this.toUpdate});
 
   @override
   _WeatherViewState createState() => _WeatherViewState();
@@ -72,7 +72,7 @@ class _WeatherViewState extends State<WeatherView> {
               ]),
               const SizedBox(height: 15),
               ElevatedButton(
-                  onPressed: widget.fn, child: const Text('Refresh')),
+                  onPressed: widget.toUpdate, child: const Text('Refresh')),
             ]),
           ),
         ]),

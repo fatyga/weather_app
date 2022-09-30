@@ -36,8 +36,9 @@ class _StartScreenState extends State<StartScreen> {
                       const SizedBox(height: 15),
                       ElevatedButton(
                           onPressed: () {
+                            var refreshedInfo = instance.setupWeather();
                             setState(() {
-                              value = instance.setupWeather();
+                              value = refreshedInfo;
                             });
                           },
                           child: const Text('Try again'))
@@ -47,9 +48,10 @@ class _StartScreenState extends State<StartScreen> {
               } else {
                 return WeatherView(
                     weather: instance,
-                    fn: () {
+                    toUpdate: () {
+                      var refreshedInfo = instance.setupWeather();
                       setState(() {
-                        value = instance.setupWeather();
+                        value = refreshedInfo;
                       });
                     });
               }
