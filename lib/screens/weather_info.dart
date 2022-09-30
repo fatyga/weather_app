@@ -22,6 +22,37 @@ class _WeatherViewState extends State<WeatherView> {
         child: Row(children: <Widget>[
           Expanded(
             child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text('units:'),
+                  const SizedBox(width: 5),
+                  InkWell(
+                      onTap: () {
+                        widget.weather.measurement = 'metric';
+                        widget.toUpdate();
+                      },
+                      child: Text('metric',
+                          style: (widget.weather.measurement == 'metric')
+                              ? Styles.activeUnitButton
+                              : const TextStyle(color: Colors.grey))),
+                  Container(
+                    width: 1,
+                    height: 15,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    color: Colors.grey,
+                  ),
+                  InkWell(
+                      onTap: () {
+                        widget.weather.measurement = 'imperial';
+                        widget.toUpdate();
+                      },
+                      child: Text('imperial',
+                          style: (widget.weather.measurement == 'imperial')
+                              ? Styles.activeUnitButton
+                              : const TextStyle(color: Colors.grey))),
+                ],
+              ),
               const SizedBox(height: 50),
               Text(
                   '${widget.weather.weatherInfo['locationName']}'.toUpperCase(),

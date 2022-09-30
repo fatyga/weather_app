@@ -6,4 +6,5 @@ class Styles {
   static final headline3 = TextStyle(fontSize: 10, color: Colors.grey[600]);
 
   static final error = TextStyle(color: Colors.red);
+  static final activeUnitButton = TextStyle(color: Colors.blue);
 }

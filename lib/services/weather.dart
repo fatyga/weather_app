@@ -7,6 +7,13 @@ class Weather {
   late Position userPosition;
   late Map weatherInfo;
 
+  String measurement = 'metric';
+
+  final measurementUnits = {
+    'metric': {'temp': '℃', 'windSpeed': 'm/s'},
+    'imperial': {'temp': 'F', 'windSpeed': 'mph'},
+  };
+
   Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -35,7 +42,7 @@ class Weather {
 
   Future<void> _getWeather() async {
     Response response = await get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=metric'));
+        'https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
 
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
