@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_app/utils/app_styles.dart';
 
 class WeatherInfo extends StatefulWidget {
   @override
@@ -13,14 +14,14 @@ class _WeatherInfoState extends State<WeatherInfo> {
     data = ModalRoute.of(context)!.settings.arguments as Map;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Weather App')),
       body: Padding(
         padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
         child: Row(children: <Widget>[
           Expanded(
             child: Column(children: [
+              const SizedBox(height: 50),
               Text('${data['data']['locationName']}'.toUpperCase(),
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+                  style: Styles.headline1),
               Text(data['data']['time'].toUpperCase()),
               const SizedBox(height: 50),
               Image.network(data['data']['icon']),
@@ -33,9 +34,7 @@ class _WeatherInfoState extends State<WeatherInfo> {
                 children: <Widget>[
                   Column(
                     children: [
-                      Text('min',
-                          style:
-                              TextStyle(fontSize: 10, color: Colors.grey[600])),
+                      Text('min', style: Styles.headline3),
                       Text(data['data']['minTemp']),
                     ],
                   ),
@@ -43,14 +42,30 @@ class _WeatherInfoState extends State<WeatherInfo> {
                       style: const TextStyle(fontSize: 40)),
                   Column(
                     children: [
-                      Text('max',
-                          style:
-                              TextStyle(fontSize: 10, color: Colors.grey[600])),
+                      Text('max', style: Styles.headline3),
                       Text(data['data']['minTemp']),
                     ],
                   ),
                 ],
               ),
+              const SizedBox(height: 25),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Column(children: [
+                  Text('humidity', style: Styles.headline2),
+                  const SizedBox(height: 5),
+                  Text(data['data']['humidity'])
+                ]),
+                Column(children: [
+                  Text('pressure', style: Styles.headline2),
+                  const SizedBox(height: 5),
+                  Text(data['data']['pressure'])
+                ]),
+                Column(children: [
+                  Text('wind', style: Styles.headline2),
+                  const SizedBox(height: 5),
+                  Text(data['data']['wind'])
+                ]),
+              ]),
               const SizedBox(height: 15),
               ElevatedButton(
                   onPressed: () {
