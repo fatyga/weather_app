@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utils/app_styles.dart';
 
-class WeatherInfo extends StatefulWidget {
+class WeatherView extends StatefulWidget {
+  Weather weather;
+  Function() fn;
+
+  WeatherView({required this.weather, required this.fn});
+
   @override
-  _WeatherInfoState createState() => _WeatherInfoState();
+  _WeatherViewState createState() => _WeatherViewState();
 }
 
-class _WeatherInfoState extends State<WeatherInfo> {
-  Map data = {};
+class _WeatherViewState extends State<WeatherView> {
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context)!.settings.arguments as Map;
-
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
@@ -20,13 +23,14 @@ class _WeatherInfoState extends State<WeatherInfo> {
           Expanded(
             child: Column(children: [
               const SizedBox(height: 50),
-              Text('${data['data']['locationName']}'.toUpperCase(),
+              Text(
+                  '${widget.weather.weatherInfo['locationName']}'.toUpperCase(),
                   style: Styles.headline1),
-              Text(data['data']['time'].toUpperCase()),
+              Text(widget.weather.weatherInfo['time'].toUpperCase()),
               const SizedBox(height: 50),
-              Image.network(data['data']['icon']),
+              Image.network(widget.weather.weatherInfo['icon']),
               const SizedBox(height: 50),
-              Text(data['data']['description'].toUpperCase(),
+              Text(widget.weather.weatherInfo['description'].toUpperCase(),
                   style: TextStyle(color: Colors.grey[600])),
               const SizedBox(height: 15),
               Row(
@@ -35,15 +39,15 @@ class _WeatherInfoState extends State<WeatherInfo> {
                   Column(
                     children: [
                       Text('min', style: Styles.headline3),
-                      Text(data['data']['minTemp']),
+                      Text(widget.weather.weatherInfo['minTemp']),
                     ],
                   ),
-                  Text('${data['data']['temp']}',
+                  Text('${widget.weather.weatherInfo['temp']}',
                       style: const TextStyle(fontSize: 40)),
                   Column(
                     children: [
                       Text('max', style: Styles.headline3),
-                      Text(data['data']['minTemp']),
+                      Text(widget.weather.weatherInfo['minTemp']),
                     ],
                   ),
                 ],
@@ -53,25 +57,22 @@ class _WeatherInfoState extends State<WeatherInfo> {
                 Column(children: [
                   Text('humidity', style: Styles.headline2),
                   const SizedBox(height: 5),
-                  Text(data['data']['humidity'])
+                  Text(widget.weather.weatherInfo['humidity'])
                 ]),
                 Column(children: [
                   Text('pressure', style: Styles.headline2),
                   const SizedBox(height: 5),
-                  Text(data['data']['pressure'])
+                  Text(widget.weather.weatherInfo['pressure'])
                 ]),
                 Column(children: [
                   Text('wind', style: Styles.headline2),
                   const SizedBox(height: 5),
-                  Text(data['data']['wind'])
+                  Text(widget.weather.weatherInfo['wind'])
                 ]),
               ]),
               const SizedBox(height: 15),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/');
-                  },
-                  child: const Text('Refresh')),
+                  onPressed: widget.fn, child: const Text('Refresh')),
             ]),
           ),
         ]),

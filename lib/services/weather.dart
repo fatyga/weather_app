@@ -47,10 +47,9 @@ class Weather {
 
   get getWeather => _getWeather;
 
-  Future<void> _setupWeather(Function fn) async {
+  Future<void> _setupWeather() async {
     await determinePosition();
     await getWeather();
-    fn();
   }
 
   get setupWeather => _setupWeather;

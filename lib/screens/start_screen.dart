@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/weather.dart';
+import 'package:weather_app/screens/weather_info.dart';
+import 'package:weather_app/utils/app_styles.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -12,53 +14,56 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   void initState() {
-    value = instance.setupWeather(() {
-      Navigator.pushReplacementNamed(context, '/weather', arguments: {
-        'data': instance.weatherInfo,
-      });
-    });
+    value = instance.setupWeather();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Weather App', style: TextStyle(fontSize: 26)),
-            const SizedBox(height: 20),
-            FutureBuilder(
-                future: value,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Column(
-                        children: <Widget>[
-                          Text(snapshot.error.toString()),
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  value = instance.setupWeather(() {
-                                    Navigator.pushReplacementNamed(
-                                        context, '/weather',
-                                        arguments: {
-                                          'data': instance.weatherInfo,
-                                        });
-                                  });
-                                });
-                              },
-                              child: const Text('Try again'))
-                        ],
-                      );
-                    }
-                  }
-                  return CircularProgressIndicator();
-                }),
-          ],
-        ),
-      ),
+      body: FutureBuilder(
+          future: value,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text('Weather App', style: TextStyle(fontSize: 25)),
+                      const SizedBox(height: 15),
+                      Text(snapshot.error.toString(), style: Styles.error),
+                      const SizedBox(height: 15),
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              value = instance.setupWeather();
+                            });
+                          },
+                          child: const Text('Try again'))
+                    ],
+                  ),
+                );
+              } else {
+                return WeatherView(
+                    weather: instance,
+                    fn: () {
+                      setState(() {
+                        value = instance.setupWeather();
+                      });
+                    });
+              }
+            }
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Weather App', style: TextStyle(fontSize: 25)),
+                SizedBox(height: 15),
+                CircularProgressIndicator(),
+              ],
+            ));
+          }),
     );
   }
 }
