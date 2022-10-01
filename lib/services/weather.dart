@@ -9,11 +9,6 @@ class Weather {
 
   String measurement = 'metric';
 
-  final measurementUnits = {
-    'metric': {'temp': '℃', 'windSpeed': 'm/s'},
-    'imperial': {'temp': 'F', 'windSpeed': 'mph'},
-  };
-
   Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -46,7 +41,7 @@ class Weather {
 
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
-      updateWeatherInfo(data);
+      updateWeatherInfo(data, measurement);
     } else {
       return Future.error("Can't fetch weather informations.");
     }
@@ -68,18 +63,21 @@ class Weather {
     return DateFormat.EEEE().add_jm().format(date);
   }
 
-  void updateWeatherInfo(info) {
+  void updateWeatherInfo(info, measurement) {
+    var temp = measurement == 'metric' ? '°C' : '°F';
+    var windSpeed = measurement == 'metric' ? 'm/s' : 'mph';
+
     weatherInfo = {
       'time': _formatTime(info['dt'], info['timezone']),
       'icon':
           'http://openweathermap.org/img/wn/${info["weather"][0]["icon"]}@2x.png',
       'description': info['weather'][0]['description'],
-      'temp': '${info['main']['temp']}℃',
-      'minTemp': '${info['main']['temp_min']}℃',
-      'maxTemp': '${info['main']['temp_max']}℃',
-      'feelsLike': '${info['main']['feels_like']}℃',
+      'temp': '${info['main']['temp']}$temp',
+      'minTemp': '${info['main']['temp_min']}$temp',
+      'maxTemp': '${info['main']['temp_max']}$temp',
+      'feelsLike': '${info['main']['feels_like']}$temp',
       'pressure': '${info['main']['pressure']}hPa',
-      'wind': '${info['wind']['speed']}m/s',
+      'wind': '${info['wind']['speed']}$windSpeed',
       'humidity': '${info['main']['humidity']}%',
       'locationName': info['name']
     };
