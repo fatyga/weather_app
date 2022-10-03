@@ -7,4 +7,10 @@ class Styles {
 
   static final error = TextStyle(color: Colors.red);
   static final activeUnitButton = TextStyle(color: Colors.blue);
+
+  static final aqi1bgColor = Colors.red;
+  static final aqi2bgColor = Colors.purple;
+  static final aqi3bgColor = Colors.orange;
+  static final aqi4bgColor = Colors.lightGreen;
+  static final aqi5bgColor = Colors.green;
 }

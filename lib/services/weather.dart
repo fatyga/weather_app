@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:weather_app/utils/app_styles.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -6,8 +8,37 @@ import 'dart:convert';
 class Weather {
   late Position userPosition;
   late Map weatherInfo;
+  late Map pollutionInfo;
 
   String measurement = 'metric';
+
+  List airPollutionDescriptions = [
+    {
+      'aqi': 1,
+      'evaluation': 'Very Poor',
+      'bgColor': Styles.aqi1bgColor,
+    },
+    {
+      'aqi': 2,
+      'evaluation': 'Poor',
+      'bgColor': Styles.aqi2bgColor,
+    },
+    {
+      'aqi': 3,
+      'evaluation': 'Moderate',
+      'bgColor': Styles.aqi3bgColor,
+    },
+    {
+      'aqi': 4,
+      'evaluation': 'Fair',
+      'bgColor': Styles.aqi4bgColor,
+    },
+    {
+      'aqi': 5,
+      'evaluation': 'Good',
+      'bgColor': Styles.aqi5bgColor,
+    },
+  ];
 
   Future<void> _determinePosition() async {
     bool serviceEnabled;
@@ -36,12 +67,18 @@ class Weather {
   get determinePosition => _determinePosition;
 
   Future<void> _getWeather() async {
-    Response response = await get(Uri.parse(
+    Response weatherResponse = await get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
+    Response pollutionResponse = await get(Uri.parse(
+        'http://api.openweathermap.org/data/2.5/air_pollution?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
-    if (response.statusCode == 200) {
-      Map data = jsonDecode(response.body);
-      updateWeatherInfo(data, measurement);
+    if (weatherResponse.statusCode == 200 &&
+        pollutionResponse.statusCode == 200) {
+      Map weatherData = jsonDecode(weatherResponse.body);
+      Map pollutionData = jsonDecode(pollutionResponse.body);
+
+      updateWeatherInfo(weatherData, measurement);
+      updatePollutionInfo(pollutionData);
     } else {
       return Future.error("Can't fetch weather informations.");
     }
@@ -63,7 +100,7 @@ class Weather {
     return DateFormat.EEEE().add_jm().format(date);
   }
 
-  void updateWeatherInfo(info, measurement) {
+  void updateWeatherInfo(Map info, measurement) {
     var temp = measurement == 'metric' ? '°C' : '°F';
     var windSpeed = measurement == 'metric' ? 'm/s' : 'mph';
 
@@ -81,5 +118,10 @@ class Weather {
       'humidity': '${info['main']['humidity']}%',
       'locationName': info['name']
     };
+  }
+
+  void updatePollutionInfo(Map info) {
+    pollutionInfo =
+        airPollutionDescriptions[info['list'][0]['main']['aqi'] - 1];
   }
 }
