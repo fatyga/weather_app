@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:weather_app/utils/app_styles.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
@@ -6,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class Weather {
-  late Position userPosition;
+  double? locationLatitude;
+  double? locationLongitude;
+
   late Map weatherInfo;
   late Map pollutionInfo;
 
@@ -61,21 +62,25 @@ class Weather {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    userPosition = await Geolocator.getCurrentPosition();
+    var userPosition = await Geolocator.getCurrentPosition();
+
+    locationLatitude = userPosition.latitude;
+    locationLongitude = userPosition.longitude;
   }
 
   get determinePosition => _determinePosition;
 
   Future<void> _getWeather() async {
     Response weatherResponse = await get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
+        'https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
     Response pollutionResponse = await get(Uri.parse(
-        'http://api.openweathermap.org/data/2.5/air_pollution?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
+        'http://api.openweathermap.org/data/2.5/air_pollution?lat=$locationLatitude&lon=$locationLongitude&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
     if (weatherResponse.statusCode == 200 &&
         pollutionResponse.statusCode == 200) {
       Map weatherData = jsonDecode(weatherResponse.body);
       Map pollutionData = jsonDecode(pollutionResponse.body);
+      print(pollutionData['list'][0]['main']['aqi']);
 
       updateWeatherInfo(weatherData, measurement);
       updatePollutionInfo(pollutionData);
@@ -87,7 +92,9 @@ class Weather {
   get getWeather => _getWeather;
 
   Future<void> _setupWeather() async {
-    await determinePosition();
+    if (locationLatitude == null && locationLongitude == null) {
+      await determinePosition();
+    }
     await getWeather();
   }
 

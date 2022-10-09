@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_app/screens/city_search.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utils/app_styles.dart';
 
 class WeatherView extends StatefulWidget {
-  Weather weather;
-  Function() toUpdate;
+  final Weather weather;
+  final Function() toUpdate;
 
   WeatherView({required this.weather, required this.toUpdate});
 
@@ -51,8 +52,26 @@ class _WeatherViewState extends State<WeatherView> {
             ],
           ),
           const SizedBox(height: 50),
-          Text('${widget.weather.weatherInfo['locationName']}'.toUpperCase(),
-              style: Styles.headline1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  '${widget.weather.weatherInfo['locationName']}'.toUpperCase(),
+                  style: Styles.headline1),
+              IconButton(
+                  onPressed: () async {
+                    var result = await Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const CitySearch();
+                    }));
+
+                    widget.weather.locationLatitude = result['latitude'];
+                    widget.weather.locationLongitude = result['longitude'];
+                    widget.toUpdate();
+                  },
+                  icon: const Icon(Icons.edit, size: 20)),
+            ],
+          ),
           Text(widget.weather.weatherInfo['time'].toUpperCase()),
           const SizedBox(height: 50),
           Image.network(widget.weather.weatherInfo['icon']),
@@ -74,7 +93,7 @@ class _WeatherViewState extends State<WeatherView> {
               Column(
                 children: [
                   Text('max', style: Styles.headline3),
-                  Text(widget.weather.weatherInfo['minTemp']),
+                  Text(widget.weather.weatherInfo['maxTemp']),
                 ],
               ),
             ],

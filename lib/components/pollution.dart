@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/weather.dart';
-import 'package:weather_app/utils/app_styles.dart';
 
 class PollutionView extends StatelessWidget {
-  Weather weather;
+  final Weather weather;
   PollutionView({super.key, required this.weather});
 
   @override
   Widget build(BuildContext context) {
-    print(weather.pollutionInfo);
     return Container(
       decoration: BoxDecoration(
         color: weather.pollutionInfo['bgColor'],
