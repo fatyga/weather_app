@@ -23,18 +23,18 @@ class PollutionView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(weather.pollutionInfo['aqi'].toString(),
-                  style: const TextStyle(fontSize: 40, color: Colors.white)),
-              Column(
+              Row(
                 children: [
-                  Text(weather.pollutionInfo['evaluation'],
+                  Text(weather.pollutionInfo['aqi'].toString(),
                       style:
-                          const TextStyle(fontSize: 20, color: Colors.white)),
-                  const SizedBox(height: 10),
-                  Text('Description will be here',
-                      style: const TextStyle(fontSize: 16, color: Colors.white))
+                          const TextStyle(fontSize: 40, color: Colors.white)),
+                  Text('/5',
+                      style: TextStyle(
+                          fontSize: 40, color: Colors.white.withOpacity(0.5)))
                 ],
               ),
+              Text(weather.pollutionInfo['evaluation'],
+                  style: const TextStyle(fontSize: 20, color: Colors.white)),
             ],
           ),
         ],
