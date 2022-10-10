@@ -3,7 +3,7 @@ import 'package:weather_app/services/weather.dart';
 
 class PollutionView extends StatelessWidget {
   final Weather weather;
-  PollutionView({super.key, required this.weather});
+  const PollutionView({super.key, required this.weather});
 
   @override
   Widget build(BuildContext context) {

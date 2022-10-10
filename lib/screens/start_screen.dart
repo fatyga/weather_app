@@ -15,7 +15,7 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   void initState() {
-    value = instance.setupWeather();
+    value = instance.getWeather();
     super.initState();
   }
 
@@ -42,7 +42,7 @@ class _StartScreenState extends State<StartScreen> {
                           const SizedBox(height: 15),
                           ElevatedButton(
                               onPressed: () {
-                                var refreshedInfo = instance.setupWeather();
+                                var refreshedInfo = instance.getWeather();
                                 setState(() {
                                   value = refreshedInfo;
                                 });
@@ -58,7 +58,7 @@ class _StartScreenState extends State<StartScreen> {
                         WeatherView(
                             weather: instance,
                             toUpdate: () {
-                              var refreshedInfo = instance.setupWeather();
+                              var refreshedInfo = instance.getWeather();
                               setState(() {
                                 value = refreshedInfo;
                               });
@@ -70,7 +70,7 @@ class _StartScreenState extends State<StartScreen> {
                         const SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: () {
-                              var refreshedInfo = instance.setupWeather();
+                              var refreshedInfo = instance.getWeather();
                               setState(() {
                                 value = refreshedInfo;
                               });

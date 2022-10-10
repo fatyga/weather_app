@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather_app/screens/city_search.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utils/app_styles.dart';
@@ -8,7 +7,7 @@ class WeatherView extends StatefulWidget {
   final Weather weather;
   final Function() toUpdate;
 
-  WeatherView({required this.weather, required this.toUpdate});
+  const WeatherView({super.key, required this.weather, required this.toUpdate});
 
   @override
   _WeatherViewState createState() => _WeatherViewState();
@@ -62,11 +61,17 @@ class _WeatherViewState extends State<WeatherView> {
                   onPressed: () async {
                     var result = await Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return const CitySearch();
+                      return CitySearch(weatherInstance: widget.weather);
                     }));
 
-                    widget.weather.locationLatitude = result['latitude'];
-                    widget.weather.locationLongitude = result['longitude'];
+                    if (result.runtimeType == int) {
+                      widget.weather.currentLocationIndex = result;
+                    } else {
+                      widget.weather.locations.add(result);
+                      widget.weather.currentLocationIndex =
+                          widget.weather.locations.length - 1;
+                    }
+
                     widget.toUpdate();
                   },
                   icon: const Icon(Icons.edit, size: 20)),

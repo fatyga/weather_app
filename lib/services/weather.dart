@@ -1,15 +1,17 @@
+import 'package:weather_app/services/location.dart';
+import 'package:weather_app/services/single_location.dart';
 import 'package:weather_app/utils/app_styles.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class Weather {
-  double? locationLatitude;
-  double? locationLongitude;
-
   late Map weatherInfo;
   late Map pollutionInfo;
+
+  List<SingleLocation> locations = [];
+
+  int currentLocationIndex = 0;
 
   String measurement = 'metric';
 
@@ -41,46 +43,25 @@ class Weather {
     },
   ];
 
-  Future<void> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    var userPosition = await Geolocator.getCurrentPosition();
-
-    locationLatitude = userPosition.latitude;
-    locationLongitude = userPosition.longitude;
-  }
-
-  get determinePosition => _determinePosition;
-
   Future<void> _getWeather() async {
+    if (locations.isEmpty) {
+      locations.add(await LocationService.determinePosition());
+    }
+
+    if (locations[currentLocationIndex].autoDetected) {
+      locations[currentLocationIndex] =
+          await LocationService.determinePosition();
+    }
+
     Response weatherResponse = await get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
+        'https://api.openweathermap.org/data/2.5/weather?lat=${locations[currentLocationIndex].latitude}&lon=${locations[currentLocationIndex].longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=$measurement'));
     Response pollutionResponse = await get(Uri.parse(
-        'http://api.openweathermap.org/data/2.5/air_pollution?lat=$locationLatitude&lon=$locationLongitude&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
+        'http://api.openweathermap.org/data/2.5/air_pollution?lat=${locations[currentLocationIndex].latitude}&lon=${locations[currentLocationIndex].longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
     if (weatherResponse.statusCode == 200 &&
         pollutionResponse.statusCode == 200) {
       Map weatherData = jsonDecode(weatherResponse.body);
       Map pollutionData = jsonDecode(pollutionResponse.body);
-      print(pollutionData['list'][0]['main']['aqi']);
 
       updateWeatherInfo(weatherData, measurement);
       updatePollutionInfo(pollutionData);
@@ -90,15 +71,6 @@ class Weather {
   }
 
   get getWeather => _getWeather;
-
-  Future<void> _setupWeather() async {
-    if (locationLatitude == null && locationLongitude == null) {
-      await determinePosition();
-    }
-    await getWeather();
-  }
-
-  get setupWeather => _setupWeather;
 
   String _formatTime(int unixTime, int timezone) {
     var date = DateTime.fromMillisecondsSinceEpoch(
@@ -125,6 +97,10 @@ class Weather {
       'humidity': '${info['main']['humidity']}%',
       'locationName': info['name']
     };
+
+    if (locations[currentLocationIndex].name == null) {
+      locations[currentLocationIndex].name = info['name'];
+    }
   }
 
   void updatePollutionInfo(Map info) {
