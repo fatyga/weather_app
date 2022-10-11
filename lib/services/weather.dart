@@ -97,10 +97,6 @@ class Weather {
       'humidity': '${info['main']['humidity']}%',
       'locationName': info['name']
     };
-
-    if (locations[currentLocationIndex].name == null) {
-      locations[currentLocationIndex].name = info['name'];
-    }
   }
 
   void updatePollutionInfo(Map info) {

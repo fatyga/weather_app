@@ -64,15 +64,17 @@ class _WeatherViewState extends State<WeatherView> {
                       return CitySearch(weatherInstance: widget.weather);
                     }));
 
-                    if (result.runtimeType == int) {
-                      widget.weather.currentLocationIndex = result;
-                    } else {
-                      widget.weather.locations.add(result);
-                      widget.weather.currentLocationIndex =
-                          widget.weather.locations.length - 1;
-                    }
+                    if (result != null) {
+                      if (result.runtimeType == int) {
+                        widget.weather.currentLocationIndex = result;
+                      } else {
+                        widget.weather.locations.add(result);
+                        widget.weather.currentLocationIndex =
+                            widget.weather.locations.length - 1;
+                      }
 
-                    widget.toUpdate();
+                      widget.toUpdate();
+                    }
                   },
                   icon: const Icon(Icons.edit, size: 20)),
             ],

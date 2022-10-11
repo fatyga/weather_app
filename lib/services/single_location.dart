@@ -1,12 +1,12 @@
 class SingleLocation {
   double latitude;
   double longitude;
-  String? name;
+  String name;
   bool autoDetected;
 
   SingleLocation(
       {required this.latitude,
       required this.longitude,
-      this.name,
+      required this.name,
       this.autoDetected = false});
 }

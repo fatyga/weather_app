@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/services/location.dart';
 import 'package:weather_app/services/single_location.dart';
 import 'package:weather_app/services/weather.dart';
-import 'package:weather_app/utils/app_styles.dart';
 
 class CitySearch extends StatefulWidget {
   const CitySearch({super.key, required this.weatherInstance});
@@ -40,20 +39,25 @@ class _CitySearchState extends State<CitySearch> {
                             errors = '';
                           });
 
-                          List locationNames = widget.weatherInstance.locations
-                              .map((location) => location.name!.toLowerCase())
-                              .toList();
+                          if (cityNameController.text.isNotEmpty) {
+                            List locationNames = widget
+                                .weatherInstance.locations
+                                .map((location) => location.name.toLowerCase())
+                                .toList();
 
-                          if (locationNames.contains(
-                              cityNameController.text.toLowerCase())) {
-                            Navigator.of(context).pop(locationNames.indexOf(
-                                cityNameController.text.toLowerCase()));
+                            if (locationNames.contains(
+                                cityNameController.text.toLowerCase())) {
+                              Navigator.of(context).pop(locationNames.indexOf(
+                                  cityNameController.text.toLowerCase()));
+                            } else {
+                              var result =
+                                  await LocationService.getCoordinatesFromName(
+                                      cityNameController.text);
+
+                              Navigator.of(context).pop(result);
+                            }
                           } else {
-                            var result =
-                                await LocationService.getCoordinatesFromName(
-                                    cityNameController.text);
-
-                            Navigator.of(context).pop(result);
+                            Navigator.of(context).pop(null);
                           }
                         },
                         child: const Text('Search')),
@@ -62,7 +66,7 @@ class _CitySearchState extends State<CitySearch> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Recently searched',
+                            const Text('Recently searched',
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 10),

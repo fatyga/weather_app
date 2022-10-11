@@ -22,6 +22,22 @@ class LocationService {
     throw 'error';
   }
 
+  static Future<String> getNameFromCoordinates(
+      {required double latitude, required double longitude}) async {
+    try {
+      Response response = await get(Uri.parse(
+          'http://api.openweathermap.org/geo/1.0/reverse?lat=$latitude&lon=$longitude&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
+
+      if (response.statusCode == 200) {
+        List result = jsonDecode(response.body);
+        return result[0]['name'];
+      } else {
+        return Future.error('Error');
+      }
+    } catch (e) {}
+    throw 'error';
+  }
+
   static Future<SingleLocation> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -49,6 +65,8 @@ class LocationService {
     return SingleLocation(
         latitude: result.latitude,
         longitude: result.longitude,
+        name: await getNameFromCoordinates(
+            latitude: result.latitude, longitude: result.longitude),
         autoDetected: true);
   }
 }
