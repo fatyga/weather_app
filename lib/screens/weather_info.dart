@@ -54,6 +54,12 @@ class _WeatherViewState extends State<WeatherView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                  width: 35,
+                  height: 35,
+                  'icons/flags/png/${widget.weather.locations[widget.weather.currentLocationIndex].countryCode.toLowerCase()}.png',
+                  package: 'country_icons'),
+              const SizedBox(width: 10),
               Text(
                   '${widget.weather.weatherInfo['locationName']}'.toUpperCase(),
                   style: Styles.headline1),

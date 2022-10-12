@@ -95,7 +95,8 @@ class Weather {
       'pressure': '${info['main']['pressure']}hPa',
       'wind': '${info['wind']['speed']}$windSpeed',
       'humidity': '${info['main']['humidity']}%',
-      'locationName': info['name']
+      'locationName': locations[currentLocationIndex].name,
+      'locationCountry': locations[currentLocationIndex].countryCode
     };
   }
 

@@ -14,6 +14,7 @@ class LocationService {
         return SingleLocation(
             latitude: result[0]['lat'],
             longitude: result[0]['lon'],
+            countryCode: result[0]['country'],
             name: result[0]['name']);
       } else {
         return Future.error('Error');
@@ -22,7 +23,7 @@ class LocationService {
     throw 'error';
   }
 
-  static Future<String> getNameFromCoordinates(
+  static Future<SingleLocation> getNameFromCoordinates(
       {required double latitude, required double longitude}) async {
     try {
       Response response = await get(Uri.parse(
@@ -30,7 +31,11 @@ class LocationService {
 
       if (response.statusCode == 200) {
         List result = jsonDecode(response.body);
-        return result[0]['name'];
+        return SingleLocation(
+            latitude: result[0]['lat'],
+            longitude: result[0]['lon'],
+            countryCode: result[0]['country'],
+            name: result[0]['name']);
       } else {
         return Future.error('Error');
       }
@@ -62,11 +67,10 @@ class LocationService {
 
     Position result = await Geolocator.getCurrentPosition();
 
-    return SingleLocation(
-        latitude: result.latitude,
-        longitude: result.longitude,
-        name: await getNameFromCoordinates(
-            latitude: result.latitude, longitude: result.longitude),
-        autoDetected: true);
+    SingleLocation location = await getNameFromCoordinates(
+        latitude: result.latitude, longitude: result.longitude);
+
+    location.autoDetected = true;
+    return location;
   }
 }

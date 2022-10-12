@@ -84,11 +84,19 @@ class _CitySearchState extends State<CitySearch> {
                                         onTap: () {
                                           Navigator.of(context).pop(index);
                                         },
-                                        title: Text(
-                                            (currentLocation.autoDetected
-                                                ? 'Detect your localization'
-                                                : currentLocation.name
-                                                    .toString()))),
+                                        leading: currentLocation.autoDetected
+                                            ? const Icon(Icons.gps_fixed)
+                                            : Image.asset(
+                                                width: 25,
+                                                height: 25,
+                                                'icons/flags/png/${currentLocation.countryCode.toLowerCase()}.png',
+                                                package: 'country_icons'),
+                                        title: currentLocation.autoDetected
+                                            ? const Text('Detect your location')
+                                            : Row(children: [
+                                                Text(currentLocation.name
+                                                    .toString()),
+                                              ])),
                                   );
                                 })
                           ]),
