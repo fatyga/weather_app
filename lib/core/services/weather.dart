@@ -1,6 +1,6 @@
-import 'package:weather_app/services/location.dart';
-import 'package:weather_app/services/single_location.dart';
-import 'package:weather_app/utils/app_styles.dart';
+import 'package:weather_app/core/services/location.dart';
+import 'package:weather_app/core/services/single_location.dart';
+import 'package:weather_app/ui/shared/app_styles.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';

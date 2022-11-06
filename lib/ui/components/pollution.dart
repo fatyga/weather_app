@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/services/weather.dart';
+import 'package:weather_app/core/services/weather.dart';
 
 class PollutionView extends StatelessWidget {
   final Weather weather;

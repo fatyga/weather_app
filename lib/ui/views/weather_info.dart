@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/screens/city_search.dart';
-import 'package:weather_app/services/weather.dart';
-import 'package:weather_app/utils/app_styles.dart';
+import 'package:weather_app/ui/screens/city_search.dart';
+import 'package:weather_app/core/services/weather.dart';
+import 'package:weather_app/ui/shared/app_styles.dart';
 
 class WeatherView extends StatefulWidget {
   final Weather weather;

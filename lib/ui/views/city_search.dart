@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/services/location.dart';
-import 'package:weather_app/services/single_location.dart';
-import 'package:weather_app/services/weather.dart';
+import 'package:weather_app/core/services/location.dart';
+import 'package:weather_app/core/services/single_location.dart';
+import 'package:weather_app/core/services/weather.dart';
 
 class CitySearch extends StatefulWidget {
   const CitySearch({super.key, required this.weatherInstance});

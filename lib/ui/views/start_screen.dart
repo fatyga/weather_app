@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/components/pollution.dart';
-import 'package:weather_app/services/weather.dart';
-import 'package:weather_app/screens/weather_info.dart';
-import 'package:weather_app/utils/app_styles.dart';
+import 'package:weather_app/ui/components/pollution.dart';
+import 'package:weather_app/core/services/weather.dart';
+import 'package:weather_app/ui/views/weather_info.dart';
+import 'package:weather_app/ui/shared/app_styles.dart';
 
 class StartScreen extends StatefulWidget {
   @override

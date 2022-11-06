@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:weather_app/services/single_location.dart';
+import 'package:weather_app/core/services/single_location.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
