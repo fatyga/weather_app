@@ -43,7 +43,7 @@ class LocationService {
     throw 'error';
   }
 
-  static Future<SingleLocation> determinePosition() async {
+  static Future<bool> checkPermissions() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -64,7 +64,10 @@ class LocationService {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+    throw 'error';
+  }
 
+  static Future<SingleLocation> determinePosition() async {
     Position result = await Geolocator.getCurrentPosition();
 
     SingleLocation location = await getNameFromCoordinates(

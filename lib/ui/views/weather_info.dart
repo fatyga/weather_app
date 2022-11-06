@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/ui/screens/city_search.dart';
+import 'package:weather_app/ui/views/city_search.dart';
 import 'package:weather_app/core/services/weather.dart';
 import 'package:weather_app/ui/shared/app_styles.dart';
 
