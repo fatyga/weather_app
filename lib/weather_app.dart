@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/ui/router.dart';
 import 'package:weather_app/ui/views/start_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Weather App',
       debugShowCheckedModeBanner: false,
-      home: StartView(),
+      onGenerateRoute: MyRouter.generateRoutes,
     );
   }
 }

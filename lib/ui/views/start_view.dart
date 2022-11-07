@@ -12,14 +12,21 @@ class StartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<StartModel>(builder: (context, value, child) {
+    return BaseView<StartModel>(onModelReady: (model) async {
+      final permissions = await model.checkPermissions();
+      if (permissions == true) {
+        Navigator.of(context).pushReplacementNamed('/weatherInfo');
+      }
+    }, builder: (context, value, child) {
       return Scaffold(
           body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Text('Weather App'),
           (value.state == ViewState.busy)
               ? CircularProgressIndicator()
-              : Text('Success')
+              : (value.failure != null)
+                  ? Text(value.failure.toString())
+                  : Text('Success')
         ]),
       ));
     });
