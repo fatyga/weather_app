@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/core/enums/view_state.dart';
 import 'package:weather_app/core/viewModels/start_model.dart';
 import 'package:weather_app/ui/components/pollution.dart';
-import 'package:weather_app/core/services/weather.dart';
+import 'package:weather_app/core/services/weather_service.dart';
 import 'package:weather_app/ui/views/base_view.dart';
-import 'package:weather_app/ui/views/weather_info.dart';
+import 'package:weather_app/ui/views/weather_view.dart';
 import 'package:weather_app/ui/shared/app_styles.dart';
 
 class StartView extends StatelessWidget {
@@ -13,10 +13,9 @@ class StartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<StartModel>(onModelReady: (model) async {
-      final permissions = await model.checkPermissions();
-      if (permissions == true) {
-        Navigator.of(context).pushReplacementNamed('/weatherInfo');
-      }
+      final weather = await model.setup();
+      Navigator.pushReplacementNamed(context, '/weatherInfo',
+          arguments: weather);
     }, builder: (context, value, child) {
       return Scaffold(
           body: Center(
