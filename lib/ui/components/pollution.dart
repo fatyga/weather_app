@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 
-class PollutionView extends StatelessWidget {
+class PollutionInfo extends StatelessWidget {
   //final Weather weather;
-  const PollutionView({super.key});
+  const PollutionInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(child: Text('elo'));
   }
   // @override
   // Widget build(BuildContext context) {

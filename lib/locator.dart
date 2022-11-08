@@ -5,6 +5,6 @@ import 'package:weather_app/core/viewModels/weather_model.dart';
 GetIt locator = GetIt.instance;
 
 void setupLocator() {
-  locator.registerLazySingleton(() => StartModel());
-  locator.registerLazySingleton(() => WeatherModel());
+  locator.registerFactory(() => StartModel());
+  locator.registerFactory(() => WeatherModel());
 }

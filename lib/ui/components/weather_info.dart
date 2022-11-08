@@ -6,16 +6,16 @@ import 'package:weather_app/ui/views/city_search.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 import 'package:weather_app/ui/shared/app_styles.dart';
 
-class WeatherView extends StatefulWidget {
-  WeatherView({super.key, required this.weather});
+class WeatherInfo extends StatefulWidget {
+  WeatherInfo({super.key, required this.weather});
 
   SingleWeather weather;
 
   @override
-  _WeatherViewState createState() => _WeatherViewState();
+  _WeatherInfoState createState() => _WeatherInfoState();
 }
 
-class _WeatherViewState extends State<WeatherView> {
+class _WeatherInfoState extends State<WeatherInfo> {
   @override
   Widget build(BuildContext context) {
     return BaseView<WeatherModel>(builder: ((context, value, child) {
@@ -57,40 +57,39 @@ class _WeatherViewState extends State<WeatherView> {
               ],
             ),
             const SizedBox(height: 50),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     // Image.asset(
-            //     //     width: 35,
-            //     //     height: 35,
-            //     //     'icons/flags/png/${widget.weather.locations[widget.weather.currentLocationIndex].countryCode.toLowerCase()}.png',
-            //     //     package: 'country_icons'),
-            //     const SizedBox(width: 10),
-            //     Text(
-            //         '${widget.weather.weatherInfo['locationName']}'.toUpperCase(),
-            //         style: Styles.headline1),
-            //     IconButton(
-            //         onPressed: () async {
-            //           var result = await Navigator.of(context)
-            //               .push(MaterialPageRoute(builder: (context) {
-            //             return CitySearch(weatherInstance: widget.weather);
-            //           }));
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                    width: 35,
+                    height: 35,
+                    'icons/flags/png/${widget.weather.location.countryCode.toLowerCase()}.png',
+                    package: 'country_icons'),
+                const SizedBox(width: 10),
+                Text('${widget.weather.location.name}'.toUpperCase(),
+                    style: Styles.headline1),
+                // IconButton(
+                //     onPressed: () async {
+                //       var result = await Navigator.of(context)
+                //           .push(MaterialPageRoute(builder: (context) {
+                //         return CitySearch(weatherInstance: widget.weather);
+                //       }));
 
-            //           if (result != null) {
-            //             if (result.runtimeType == int) {
-            //               widget.weather.currentLocationIndex = result;
-            //             } else {
-            //               widget.weather.locations.add(result);
-            //               widget.weather.currentLocationIndex =
-            //                   widget.weather.locations.length - 1;
-            //             }
+                //       if (result != null) {
+                //         if (result.runtimeType == int) {
+                //           widget.weather.currentLocationIndex = result;
+                //         } else {
+                //           widget.weather.locations.add(result);
+                //           widget.weather.currentLocationIndex =
+                //               widget.weather.locations.length - 1;
+                //         }
 
-            //             widget.toUpdate();
-            //           }
-            //         },
-            //         icon: const Icon(Icons.edit, size: 20)),
-            //   ],
-            // ),
+                //         widget.toUpdate();
+                //       }
+                //     },
+                //     icon: const Icon(Icons.edit, size: 20)),
+              ],
+            ),
             Text(widget.weather.time.toString().toUpperCase()),
             const SizedBox(height: 50),
             Image.network(widget.weather.iconUrl),

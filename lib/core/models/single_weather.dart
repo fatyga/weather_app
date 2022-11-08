@@ -1,3 +1,5 @@
+import 'package:weather_app/core/models/single_location.dart';
+
 class SingleWeather {
   final int time;
   final String iconUrl;
@@ -9,6 +11,7 @@ class SingleWeather {
   final int pressure;
   final double wind;
   final int humidity;
+  final SingleLocation location;
 
   const SingleWeather(
       {required this.time,
@@ -20,10 +23,13 @@ class SingleWeather {
       required this.maxTemp,
       required this.humidity,
       required this.wind,
-      required this.pressure});
+      required this.pressure,
+      required this.location});
 
-  factory SingleWeather.fromMap(Map<String, dynamic> map) {
+  factory SingleWeather.fromMap(
+      Map<String, dynamic> map, SingleLocation location) {
     return SingleWeather(
+      location: location,
       time: map['dt'],
       description: map['weather'][0]['description'],
       temp: map['main']['temp'],
