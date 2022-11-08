@@ -22,19 +22,19 @@ class SingleWeather {
       required this.wind,
       required this.pressure});
 
-  factory SingleWeather.fromJSON(Map<String, dynamic> json) {
+  factory SingleWeather.fromMap(Map<String, dynamic> map) {
     return SingleWeather(
-      time: json['dt'],
-      description: json['weather'][0]['description'],
-      temp: json['main']['temp'],
-      minTemp: json['main']['temp_min'],
-      maxTemp: json['main']['temp_max'],
-      feelsLike: json['main']['feels_like'],
-      pressure: json['main']['pressure'],
-      wind: json['wind']['speed'],
-      humidity: json['main']['humidity'],
+      time: map['dt'],
+      description: map['weather'][0]['description'],
+      temp: map['main']['temp'],
+      minTemp: map['main']['temp_min'],
+      maxTemp: map['main']['temp_max'],
+      feelsLike: map['main']['feels_like'],
+      pressure: map['main']['pressure'],
+      wind: map['wind']['speed'],
+      humidity: map['main']['humidity'],
       iconUrl:
-          'http://openweathermap.org/img/wn/${json["weather"][0]["icon"]}@2x.png',
+          'http://openweathermap.org/img/wn/${map["weather"][0]["icon"]}@2x.png',
     );
   }
 }

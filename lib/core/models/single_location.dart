@@ -11,4 +11,12 @@ class SingleLocation {
       required this.name,
       required this.countryCode,
       this.autoDetected = false});
+
+  factory SingleLocation.fromMap(Map<String, dynamic> map) {
+    return SingleLocation(
+        latitude: map['lat'],
+        longitude: map['lon'],
+        name: map['name'],
+        countryCode: map['country']);
+  }
 }

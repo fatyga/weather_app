@@ -11,12 +11,9 @@ class LocationService {
           'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
       if (response.statusCode == 200) {
-        List result = jsonDecode(response.body);
-        return SingleLocation(
-            latitude: result[0]['lat'],
-            longitude: result[0]['lon'],
-            countryCode: result[0]['country'],
-            name: result[0]['name']);
+        dynamic result = jsonDecode(response.body);
+
+        return SingleLocation.fromMap(result[0]);
       } else {
         return Future.error('Error');
       }
@@ -31,12 +28,9 @@ class LocationService {
           'http://api.openweathermap.org/geo/1.0/reverse?lat=$latitude&lon=$longitude&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
       if (response.statusCode == 200) {
-        List result = jsonDecode(response.body);
-        return SingleLocation(
-            latitude: result[0]['lat'],
-            longitude: result[0]['lon'],
-            countryCode: result[0]['country'],
-            name: result[0]['name']);
+        dynamic result = jsonDecode(response.body);
+
+        return SingleLocation.fromMap(result[0]);
       } else {
         return Future.error('Error');
       }

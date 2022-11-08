@@ -56,7 +56,7 @@ class WeatherService {
 
     Response weatherResponse = await get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
-    return SingleWeather.fromJSON(jsonDecode(weatherResponse.body));
+    return SingleWeather.fromMap(jsonDecode(weatherResponse.body));
 
     // Response pollutionResponse = await get(Uri.parse(
     //     'http://api.openweathermap.org/data/2.5/air_pollution?lat=${location.latitude}&lon=${location.longitude}&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
