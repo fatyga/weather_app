@@ -8,14 +8,6 @@ import 'package:weather_app/core/services/weather_service.dart';
 import 'package:weather_app/core/viewModels/base_model.dart';
 
 class StartModel extends BaseModel {
-  Failure? _failure;
-  Failure? get failure => _failure;
-
-  void setFailure(Failure f) {
-    _failure = f;
-    notifyListeners();
-  }
-
   Future<SingleWeather?> setup() async {
     setViewState(ViewState.busy);
     try {

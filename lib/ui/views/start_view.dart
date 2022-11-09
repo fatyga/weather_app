@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/enums/view_state.dart';
 import 'package:weather_app/core/viewModels/start_model.dart';
-import 'package:weather_app/ui/components/pollution.dart';
+import 'package:weather_app/ui/components/pollution_info.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 import 'package:weather_app/ui/views/base_view.dart';
 import 'package:weather_app/ui/components/weather_info.dart';
@@ -14,7 +14,7 @@ class StartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<StartModel>(onModelReady: (model) async {
       final weather = await model.setup();
-      Navigator.pushReplacementNamed(context, '/home', arguments: weather);
+      Navigator.pushReplacementNamed(context, '/home');
     }, builder: (context, value, child) {
       return Scaffold(
           body: Center(

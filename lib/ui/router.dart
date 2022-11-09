@@ -9,9 +9,7 @@ class MyRouter {
       case '/':
         return MaterialPageRoute(builder: (context) => StartView());
       case '/home':
-        final weather = settings.arguments as SingleWeather;
-        return MaterialPageRoute(
-            builder: (context) => HomeView(weather: weather));
+        return MaterialPageRoute(builder: (context) => HomeView());
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(
