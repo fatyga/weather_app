@@ -66,12 +66,17 @@ class LocationService {
   }
 
   static Future<SingleLocation> determinePosition() async {
-    Position result = await Geolocator.getCurrentPosition();
+    try {
+      Position result = await Geolocator.getCurrentPosition();
+      SingleLocation location = await getNameFromCoordinates(
+          latitude: result.latitude, longitude: result.longitude);
 
-    SingleLocation location = await getNameFromCoordinates(
-        latitude: result.latitude, longitude: result.longitude);
-
-    location.autoDetected = true;
-    return location;
+      location.autoDetected = true;
+      return location;
+    } on LocationServiceDisabledException {
+      throw Failure(message: 'Location services are disabled.');
+    } on PermissionDeniedException {
+      throw Failure(message: 'Location permissions are denied');
+    }
   }
 }

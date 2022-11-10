@@ -14,6 +14,7 @@ class BaseModel extends ChangeNotifier {
   ViewState get state => _state;
 
   void setViewState(ViewState newState) {
+    _failure = null;
     _state = newState;
     notifyListeners();
   }

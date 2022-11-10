@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/ui/router.dart';
-import 'package:weather_app/ui/views/start_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
