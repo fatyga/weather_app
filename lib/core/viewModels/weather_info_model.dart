@@ -8,13 +8,7 @@ import 'package:weather_app/core/viewModels/base_model.dart';
 class WeatherInfoModel extends BaseModel {
   WeatherService _weatherService = WeatherService();
 
-  late SingleWeather weather;
-
-  void getInitialWeather(SingleWeather initialWeather) {
-    setViewState(ViewState.busy);
-    weather = initialWeather;
-    setViewState(ViewState.idle);
-  }
+  SingleWeather? weather;
 
   void getWeather() async {
     setViewState(ViewState.busy);

@@ -38,35 +38,21 @@ class LocationService {
     throw 'error';
   }
 
-  static Future<bool> checkPermissions() async {
+  static Future<void> checkPermissions() async {
     bool serviceEnabled;
     LocationPermission permission;
-    bool ok = true;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ok = false;
-      throw const Failure(message: 'Location services are disabled.');
-    }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ok = false;
-        throw const Failure(message: 'Location permissions are denied.');
-      }
+      if (permission == LocationPermission.denied) {}
     }
-    if (permission == LocationPermission.deniedForever) {
-      ok = false;
-      throw const Failure(
-          message:
-              'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    return ok;
   }
 
   static Future<SingleLocation> determinePosition() async {
     try {
+      await checkPermissions();
       Position result = await Geolocator.getCurrentPosition();
       SingleLocation location = await getNameFromCoordinates(
           latitude: result.latitude, longitude: result.longitude);

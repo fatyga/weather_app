@@ -19,6 +19,7 @@ class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
   @override
   void initState() {
     super.initState();
+
     if (widget.onModelReady != null) {
       widget.onModelReady!(model);
     }
