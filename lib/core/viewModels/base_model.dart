@@ -6,7 +6,7 @@ class BaseModel extends ChangeNotifier {
   Failure? _failure;
   Failure? get failure => _failure;
 
-  void setFailure(Failure f) {
+  void setFailure(Failure? f) {
     _failure = f;
   }
 
@@ -14,7 +14,6 @@ class BaseModel extends ChangeNotifier {
   ViewState get state => _state;
 
   void setViewState(ViewState newState) {
-    _failure = null;
     _state = newState;
     notifyListeners();
   }

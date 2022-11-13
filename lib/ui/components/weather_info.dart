@@ -20,7 +20,9 @@ class _WeatherInfoState extends State<WeatherInfo> {
   @override
   Widget build(BuildContext context) {
     return BaseView<WeatherInfoModel>(onModelReady: (model) {
-      model.getWeather();
+      if (model.firstInfoFetch) {
+        model.getWeather();
+      }
     }, builder: ((context, model, child) {
       return SafeArea(
         child: Scaffold(
@@ -37,7 +39,6 @@ class _WeatherInfoState extends State<WeatherInfo> {
                   )
                 : (model.failure != null)
                     ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(model.failure.toString()),
                           ElevatedButton(

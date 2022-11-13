@@ -9,13 +9,17 @@ class WeatherInfoModel extends BaseModel {
   WeatherService _weatherService = WeatherService();
 
   SingleWeather? weather;
+  bool firstInfoFetch = true;
 
   void getWeather() async {
+    setFailure(null);
     setViewState(ViewState.busy);
+    if (firstInfoFetch == true) firstInfoFetch = false;
     try {
       final userLocation = await LocationService.determinePosition();
       weather = await _weatherService.getWeather(userLocation);
     } on Failure catch (f) {
+      print(f);
       setFailure(f);
     }
 

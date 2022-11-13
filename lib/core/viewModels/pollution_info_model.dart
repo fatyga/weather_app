@@ -9,8 +9,10 @@ class PollutionInfoModel extends BaseModel {
   PollutionService pollutionService = PollutionService();
   SinglePollution? pollution;
 
+  bool firstInfoFetch = true;
   void getPollutionInfo() async {
     setViewState(ViewState.busy);
+    if (firstInfoFetch == true) firstInfoFetch = false;
     try {
       final userLocation = await LocationService.determinePosition();
       pollution = await pollutionService.getPollutionInfo(userLocation);
