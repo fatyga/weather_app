@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/services/location_service.dart';
-import 'package:weather_app/core/models/single_location.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 
 class CitySearch extends StatefulWidget {
