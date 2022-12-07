@@ -37,7 +37,7 @@ class SingleWeather {
       maxTemp: map['main']['temp_max'],
       feelsLike: map['main']['feels_like'],
       pressure: map['main']['pressure'],
-      wind: map['wind']['speed'],
+      wind: double.parse(map['wind']['speed'].toString()),
       humidity: map['main']['humidity'],
       iconUrl:
           'http://openweathermap.org/img/wn/${map["weather"][0]["icon"]}@2x.png',

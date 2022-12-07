@@ -5,13 +5,7 @@ import 'package:weather_app/core/models/single_location.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
-  SingleLocation? _currentLocation;
-  SingleLocation? get currentLocation => _currentLocation;
-  Function()? onUpdate;
-
-  LocationService({this.onUpdate});
-
-  Future<void> getCoordinatesFromName(String cityName) async {
+  Future<SingleLocation> getCoordinatesFromName(String cityName) async {
     try {
       Response response = await get(Uri.parse(
           'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
@@ -19,17 +13,15 @@ class LocationService {
       if (response.statusCode == 200) {
         dynamic result = jsonDecode(response.body);
 
-        _currentLocation = SingleLocation.fromMap(result[0]);
-        if (onUpdate != null) {
-          onUpdate!();
-        }
+        return SingleLocation.fromMap(result[0]);
       } else {
         return Future.error('Error');
       }
     } catch (e) {}
+    throw '';
   }
 
-  Future<void> getNameFromCoordinates(
+  Future<SingleLocation> getNameFromCoordinates(
       {required double latitude, required double longitude}) async {
     try {
       Response response = await get(Uri.parse(
@@ -38,14 +30,12 @@ class LocationService {
       if (response.statusCode == 200) {
         dynamic result = jsonDecode(response.body);
 
-        _currentLocation = SingleLocation.fromMap(result[0]);
-        if (onUpdate != null) {
-          onUpdate!();
-        }
+        return SingleLocation.fromMap(result[0]);
       } else {
         return Future.error('Error');
       }
     } catch (e) {}
+    throw '';
   }
 
   Future<void> checkPermissions() async {
@@ -60,11 +50,11 @@ class LocationService {
     }
   }
 
-  Future<void> determinePosition() async {
+  Future<SingleLocation> determinePosition() async {
     try {
       await checkPermissions();
       Position result = await Geolocator.getCurrentPosition();
-      await getNameFromCoordinates(
+      return await getNameFromCoordinates(
           latitude: result.latitude, longitude: result.longitude);
     } on LocationServiceDisabledException {
       throw Failure(message: 'Location services are disabled.');
