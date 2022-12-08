@@ -14,6 +14,8 @@ class Repository {
 
   bool firstInitialization = true;
 
+  List<SingleLocation> recentLocations = [];
+
   BehaviorSubject<SinglePollution> _pollution =
       BehaviorSubject<SinglePollution>();
 
@@ -23,7 +25,11 @@ class Repository {
 
   Future<void> getUserLocation() async {
     final location = await locationService.determinePosition();
+    location.autoDetected = true;
     _location.sink.add(location);
+    if (!recentLocations.any((element) => element.name == location.name)) {
+      recentLocations.add(location);
+    }
   }
 
   //inputs

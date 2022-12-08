@@ -11,5 +11,12 @@ class LocationSearchBloc {
     final location =
         await _repository.locationService.getCoordinatesFromName(name);
     _repository.getlocation(location);
+
+    if (!_repository.recentLocations.any((loc) => loc.name == location.name)) {
+      _repository.recentLocations.add(location);
+    }
   }
+
+  List<SingleLocation> get recentLocations => _repository.recentLocations;
+  Function(SingleLocation) get getLocation => _repository.getlocation;
 }
