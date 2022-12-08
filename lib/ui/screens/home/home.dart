@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/ui/screens/location_search/location_search.dart';
 import 'package:weather_app/ui/screens/home/components/pollution_info.dart';
 import 'package:weather_app/ui/screens/home/components/weather_info.dart';
 
@@ -34,6 +35,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LocationSearch()));
+              },
+              icon: Icon(Icons.location_city))
+        ],
+      ),
       body: PageStorage(
         child: pages[index],
         bucket: bucket,

@@ -14,5 +14,5 @@ class WeatherInfoBloc {
 
   Stream<SingleWeather> get info => _repository.weather;
 
-  void getWeather() => _repository.getLocation();
+  void getWeather() => _repository.getUserLocation();
 }

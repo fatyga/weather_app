@@ -12,7 +12,7 @@ class Repository {
   final weatherService = WeatherService();
   final pollutionService = PollutionService();
 
-  bool loaded = false;
+  bool firstInitialization = true;
 
   BehaviorSubject<SinglePollution> _pollution =
       BehaviorSubject<SinglePollution>();
@@ -21,7 +21,7 @@ class Repository {
 
   BehaviorSubject<SingleLocation> _location = BehaviorSubject<SingleLocation>();
 
-  Future<void> getLocation() async {
+  Future<void> getUserLocation() async {
     final location = await locationService.determinePosition();
     _location.sink.add(location);
   }
@@ -29,12 +29,17 @@ class Repository {
   //inputs
   Function(SingleWeather) get getWeather => _weather.sink.add;
   Function(SinglePollution) get getPollution => _pollution.sink.add;
+  Function(SingleLocation) get getlocation => _location.sink.add;
 
   // outputs
   Stream<SingleLocation> get location => _location.stream;
 
   Stream<SingleWeather> get weather {
-    if (!loaded) getLocation();
+    if (firstInitialization) {
+      getUserLocation();
+      firstInitialization = false;
+    }
+
     return _weather.stream;
   }
 
