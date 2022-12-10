@@ -24,12 +24,23 @@ class Repository {
   BehaviorSubject<SingleLocation> _location = BehaviorSubject<SingleLocation>();
 
   Future<void> getUserLocation() async {
-    final location = await locationService.determinePosition();
-    location.autoDetected = true;
-    _location.sink.add(location);
-    if (!recentLocations.any((element) => element.name == location.name)) {
-      recentLocations.add(location);
+    SingleLocation location;
+
+    if (!_location.hasValue || _location.value.autoDetected == true) {
+      location = await locationService.determinePosition();
+      location.autoDetected = true;
+      if (!recentLocations.any((element) => element.autoDetected == true)) {
+        recentLocations.add(location);
+      } else {
+        final index =
+            recentLocations.indexWhere((element) => element.autoDetected);
+        recentLocations[index] = location;
+      }
+    } else {
+      location = _location.value;
     }
+
+    _location.sink.add(location);
   }
 
   //inputs

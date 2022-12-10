@@ -46,24 +46,25 @@ class _CitySearchState extends State<LocationSearch> {
                 const Text('Recent locations',
                     style:
                         TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
-                Column(
-                    children: bloc.recentLocations.isNotEmpty
-                        ? bloc.recentLocations.map((location) {
-                            final title = location.autoDetected
-                                ? Row(children: [
-                                    Text(location.name),
-                                    Icon(Icons.location_on)
-                                  ])
-                                : Text(location.name);
+                Flexible(
+                  child: ListView.builder(
+                      itemCount: bloc.recentLocations.length,
+                      itemBuilder: (context, index) {
+                        final title = bloc.recentLocations[index].autoDetected
+                            ? Row(children: [
+                                Text(bloc.recentLocations[index].name),
+                                Icon(Icons.location_on)
+                              ])
+                            : Text(bloc.recentLocations[index].name);
 
-                            return ListTile(
-                                title: title,
-                                onTap: () {
-                                  bloc.getLocation(location);
-                                  Navigator.of(context).pop();
-                                });
-                          }).toList()
-                        : [])
+                        return ListTile(
+                            title: title,
+                            onTap: () {
+                              bloc.getLocation(bloc.recentLocations[index]);
+                              Navigator.of(context).pop();
+                            });
+                      }),
+                )
               ],
             )));
   }
