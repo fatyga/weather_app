@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:weather_app/core/models/status.dart';
+
+class StatusBar extends StatelessWidget {
+  const StatusBar({super.key, required this.status});
+  final Status status;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget widget = Container();
+
+    switch (status.state) {
+      case StatusState.fetching:
+        widget = Bar(
+            leading: const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  color: Colors.grey,
+                  strokeWidth: 2,
+                )),
+            comment: status.comment,
+            bgColor: Colors.grey[100]);
+        break;
+      case StatusState.error:
+        widget = Bar(
+            leading: Icon(Icons.error, color: Colors.red, size: 20),
+            comment: status.comment,
+            bgColor: Colors.red[100]);
+
+        break;
+      case StatusState.success:
+        widget = Bar(
+            leading: Icon(Icons.done, color: Colors.green, size: 20),
+            comment: status.comment,
+            bgColor: Colors.green[100]);
+
+        break;
+    }
+    return widget;
+  }
+}
+
+class Bar extends StatelessWidget {
+  final Widget leading;
+  final String? comment;
+  final Color? bgColor;
+
+  const Bar(
+      {super.key, required this.leading, this.comment, required this.bgColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16), color: bgColor),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          leading,
+          const SizedBox(width: 8),
+          Text(comment ?? '',
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal))
+        ]));
+  }
+}

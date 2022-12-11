@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/core/bloc/bloc_provider.dart';
+import 'package:weather_app/core/models/status.dart';
+import 'package:weather_app/ui/screens/home/components/status_bar.dart';
 import 'package:weather_app/ui/screens/location_search/location_search.dart';
 import 'package:weather_app/ui/screens/home/components/pollution_info.dart';
 import 'package:weather_app/ui/screens/home/components/weather_info.dart';
@@ -34,15 +37,24 @@ class _HomeState extends State<Home> {
       ]);
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of(context).homeBloc;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        title: StreamBuilder(
+            stream: bloc.status,
+            initialData: Status(StatusState.fetching, ''),
+            builder: (context, snapshot) {
+              return StatusBar(status: snapshot.data!);
+            }),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => LocationSearch()));
               },
-              icon: Icon(Icons.location_city))
+              icon: Icon(Icons.location_city, color: Colors.black))
         ],
       ),
       body: PageStorage(
