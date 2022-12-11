@@ -27,8 +27,8 @@ class Repository {
 
   BehaviorSubject<Status> _status = BehaviorSubject<Status>();
 
-  void setStatus(StatusState newStatus, String? comment) {
-    _status.sink.add(Status(newStatus, comment));
+  void setStatus(StatusState newStatus, String? comment, [Function()? action]) {
+    _status.sink.add(Status(newStatus, comment, action));
   }
 
   Future<void> getUserLocation() async {
@@ -52,7 +52,7 @@ class Repository {
 
       _location.sink.add(location);
     } on Failure catch (e) {
-      setStatus(StatusState.error, e.message);
+      setStatus(StatusState.error, e.message, getUserLocation);
     }
   }
 

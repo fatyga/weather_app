@@ -86,11 +86,6 @@ class WeatherInfo extends StatelessWidget {
                                   Text(snapshot.data.wind.toString())
                                 ]),
                               ]),
-                          ElevatedButton(
-                              onPressed: () {
-                                bloc.getWeather();
-                              },
-                              child: Text('Refresh'))
                         ]),
                       ),
                     ])

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 import 'package:weather_app/core/failure.dart';
 import 'package:weather_app/core/models/single_location.dart';
@@ -17,8 +18,13 @@ class LocationService {
       } else {
         return Future.error('Error');
       }
-    } catch (e) {}
-    throw '';
+    } on SocketException {
+      throw const Failure(message: 'Check your internet connection');
+    } on HttpException {
+      throw const Failure(message: 'Couldn\'t fetch info about loaction');
+    } on FormatException {
+      throw const Failure(message: 'Bad response format.');
+    }
   }
 
   Future<SingleLocation> getNameFromCoordinates(
@@ -34,8 +40,13 @@ class LocationService {
       } else {
         return Future.error('Error');
       }
-    } catch (e) {}
-    throw '';
+    } on SocketException {
+      throw const Failure(message: 'Check your internet connection');
+    } on HttpException {
+      throw const Failure(message: 'Couldn\'t fetch info about loaction');
+    } on FormatException {
+      throw const Failure(message: 'Bad response format');
+    }
   }
 
   Future<void> checkPermissions() async {
@@ -57,9 +68,9 @@ class LocationService {
       return await getNameFromCoordinates(
           latitude: result.latitude, longitude: result.longitude);
     } on LocationServiceDisabledException {
-      throw Failure(message: 'Location services are disabled.');
+      throw const Failure(message: 'Location services are disabled.');
     } on PermissionDeniedException {
-      throw Failure(message: 'Location permissions are denied');
+      throw const Failure(message: 'Location permissions are denied');
     }
   }
 }

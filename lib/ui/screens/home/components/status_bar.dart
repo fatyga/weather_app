@@ -24,15 +24,17 @@ class StatusBar extends StatelessWidget {
         break;
       case StatusState.error:
         widget = Bar(
+            onTap: status.action,
             leading: Icon(Icons.error, color: Colors.red, size: 20),
-            comment: status.comment,
+            comment: '${status.comment} Tap to try again',
             bgColor: Colors.red[100]);
 
         break;
       case StatusState.success:
         widget = Bar(
+            onTap: status.action,
             leading: Icon(Icons.done, color: Colors.green, size: 20),
-            comment: status.comment,
+            comment: '${status.comment} Tap to refresh',
             bgColor: Colors.green[100]);
 
         break;
@@ -45,24 +47,32 @@ class Bar extends StatelessWidget {
   final Widget leading;
   final String? comment;
   final Color? bgColor;
+  final Function()? onTap;
 
   const Bar(
-      {super.key, required this.leading, this.comment, required this.bgColor});
+      {super.key,
+      required this.leading,
+      this.comment,
+      required this.bgColor,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16), color: bgColor),
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          leading,
-          const SizedBox(width: 8),
-          Text(comment ?? '',
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal))
-        ]));
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16), color: bgColor),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            leading,
+            const SizedBox(width: 8),
+            Text(comment ?? '',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal))
+          ])),
+    );
   }
 }
