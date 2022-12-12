@@ -16,11 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int index = 0;
 
-  List<Widget> pages = [
-    WeatherInfo(key: PageStorageKey('weatherInfo')),
-    PollutionInfo(key: PageStorageKey('pollutionInfo'))
-  ];
-  final PageStorageBucket bucket = PageStorageBucket();
+  List<Widget> pages = [WeatherInfo(), PollutionInfo()];
 
   void setIndex(int newIndex) {
     setState(() {
@@ -28,13 +24,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget _bottomNavigatonBar(int index) =>
-      BottomNavigationBar(currentIndex: index, onTap: setIndex, items: [
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.cloud), label: 'Weather'),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.public_outlined), label: 'Air Pollution')
-      ]);
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context).homeBloc;
@@ -54,14 +43,18 @@ class _HomeState extends State<Home> {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => LocationSearch()));
               },
-              icon: Icon(Icons.location_city, color: Colors.black))
+              icon: const Icon(Icons.location_city, color: Colors.black))
         ],
       ),
-      body: PageStorage(
-        child: pages[index],
-        bucket: bucket,
-      ),
-      bottomNavigationBar: _bottomNavigatonBar(index),
+      body: pages[index],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: index,
+          onTap: setIndex,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.cloud), label: 'Weather'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.public_outlined), label: 'Air Pollution')
+          ]),
     );
   }
 }

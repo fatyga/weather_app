@@ -11,17 +11,13 @@ class LocationService {
       Response response = await get(Uri.parse(
           'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
-      if (response.statusCode == 200) {
-        dynamic result = jsonDecode(response.body);
+      dynamic result = jsonDecode(response.body);
 
-        return SingleLocation.fromMap(result[0]);
-      } else {
-        return Future.error('Error');
-      }
+      return SingleLocation.fromMap(result[0]);
     } on SocketException {
-      throw const Failure(message: 'Check your internet connection');
+      throw const Failure(message: 'Check your internet connection.');
     } on HttpException {
-      throw const Failure(message: 'Couldn\'t fetch info about loaction');
+      throw const Failure(message: 'Couldn\'t fetch info about loaction.');
     } on FormatException {
       throw const Failure(message: 'Bad response format.');
     }
@@ -33,19 +29,15 @@ class LocationService {
       Response response = await get(Uri.parse(
           'http://api.openweathermap.org/geo/1.0/reverse?lat=$latitude&lon=$longitude&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
-      if (response.statusCode == 200) {
-        dynamic result = jsonDecode(response.body);
+      dynamic result = jsonDecode(response.body);
 
-        return SingleLocation.fromMap(result[0]);
-      } else {
-        return Future.error('Error');
-      }
+      return SingleLocation.fromMap(result[0]);
     } on SocketException {
-      throw const Failure(message: 'Check your internet connection');
+      throw const Failure(message: 'Check your internet connection.');
     } on HttpException {
-      throw const Failure(message: 'Couldn\'t fetch info about loaction');
+      throw const Failure(message: 'Couldn\'t fetch info about loaction.');
     } on FormatException {
-      throw const Failure(message: 'Bad response format');
+      throw const Failure(message: 'Bad response format.');
     }
   }
 
@@ -70,7 +62,7 @@ class LocationService {
     } on LocationServiceDisabledException {
       throw const Failure(message: 'Location services are disabled.');
     } on PermissionDeniedException {
-      throw const Failure(message: 'Location permissions are denied');
+      throw const Failure(message: 'Location permissions are denied.');
     }
   }
 }

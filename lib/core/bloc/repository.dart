@@ -8,6 +8,7 @@ import 'package:weather_app/core/models/status.dart';
 import 'package:weather_app/core/services/location_service.dart';
 import 'package:weather_app/core/services/pollution_service.dart';
 import 'package:weather_app/core/services/weather_service.dart';
+import 'package:intl/intl.dart';
 
 class Repository {
   final locationService = LocationService();
@@ -29,6 +30,14 @@ class Repository {
 
   void setStatus(StatusState newStatus, String? comment, [Function()? action]) {
     _status.sink.add(Status(newStatus, comment, action));
+    if (newStatus == StatusState.success) {
+      Future.delayed(Duration(seconds: 5), () {
+        _status.sink.add(Status(
+            StatusState.success,
+            'Last update: ${DateFormat.yMd().add_jm().format(DateTime.now())}',
+            action));
+      });
+    }
   }
 
   Future<void> getUserLocation() async {
