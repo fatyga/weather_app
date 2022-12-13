@@ -9,89 +9,111 @@ class WeatherInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context).weatherInfoBloc;
 
-    return SafeArea(
-      child: Scaffold(
-          body: StreamBuilder<Object>(
-              stream: bloc.info,
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting)
-                  return Center(child: CircularProgressIndicator());
-
-                return Column(
+    return StreamBuilder<Object>(
+        stream: bloc.info,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          }
+          return Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0),
+              child: Column(children: [
+                Column(
                   children: [
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [],
-                          ),
-                          const SizedBox(height: 50),
-                          Row(
+                    (snapshot.data.location.autoDetected)
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                  width: 35,
-                                  height: 35,
-                                  'icons/flags/png/${snapshot.data.location.countryCode.toLowerCase()}.png',
-                                  package: 'country_icons'),
-                              const SizedBox(width: 10),
-                              Text(snapshot.data.location.name,
-                                  style: Styles.headline1),
-                            ],
-                          ),
-                          Text(snapshot.data.time.toString()),
-                          const SizedBox(height: 50),
-                          Image.network(snapshot.data.iconUrl),
-                          const SizedBox(height: 50),
-                          Text(snapshot.data.description,
-                              style: TextStyle(color: Colors.grey[600])),
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Column(
-                                children: [
-                                  Text('min', style: Styles.headline3),
-                                  Text(snapshot.data.minTemp.toString()),
-                                ],
-                              ),
-                              Text(snapshot.data.temp.toString(),
-                                  style: const TextStyle(fontSize: 40)),
-                              Column(
-                                children: [
-                                  Text('max', style: Styles.headline3),
-                                  Text(snapshot.data.maxTemp.toString()),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 25),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(children: [
-                                  Text('humidity', style: Styles.headline2),
-                                  const SizedBox(height: 5),
-                                  Text(snapshot.data.humidity.toString())
-                                ]),
-                                Column(children: [
-                                  Text('pressure', style: Styles.headline2),
-                                  const SizedBox(height: 5),
-                                  Text(snapshot.data.pressure.toString())
-                                ]),
-                                Column(children: [
-                                  Text('wind', style: Styles.headline2),
-                                  const SizedBox(height: 5),
-                                  Text(snapshot.data.wind.toString())
-                                ]),
-                              ]),
-                        ]),
-                      ),
-                    ])
+                                const Icon(Icons.location_on_outlined,
+                                    size: 20),
+                                Text(snapshot.data.location.name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                              ])
+                        : Text(snapshot.data.location.name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20)),
+                    const SizedBox(height: 16),
+                    Image.network(snapshot.data.iconUrl),
+                    const SizedBox(height: 16),
                   ],
-                );
-              })),
-    );
+                ),
+                Text(snapshot.data.description, style: TextStyle(fontSize: 20)),
+                const SizedBox(height: 32),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('temperature'),
+                              Text(snapshot.data.temp),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('humidity'),
+                              Text(snapshot.data.humidity)
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('wind'),
+                              Row(
+                                children: [
+                                  Text(snapshot.data.wind),
+                                  const SizedBox(width: 4),
+                                  Transform.rotate(
+                                      angle: double.parse(
+                                          snapshot.data.windDegree),
+                                      child: const Icon(Icons.arrow_upward,
+                                          size: 16))
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('pressure'),
+                              Text(snapshot.data.pressure)
+                            ],
+                          ),
+                        )
+                      ]),
+                ),
+              ]));
+        });
   }
 }

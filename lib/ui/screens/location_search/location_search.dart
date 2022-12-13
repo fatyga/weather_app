@@ -52,8 +52,9 @@ class _CitySearchState extends State<LocationSearch> {
                       itemBuilder: (context, index) {
                         final title = bloc.recentLocations[index].autoDetected
                             ? Row(children: [
+                                const Icon(Icons.location_on_outlined,
+                                    size: 20),
                                 Text(bloc.recentLocations[index].name),
-                                Icon(Icons.location_on)
                               ])
                             : Text(bloc.recentLocations[index].name);
 
