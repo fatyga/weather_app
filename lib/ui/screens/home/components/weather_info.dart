@@ -16,7 +16,7 @@ class WeatherInfo extends StatelessWidget {
             return Container();
           }
           return Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 0),
+              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
               child: Column(children: [
                 Column(
                   children: [
@@ -35,11 +35,12 @@ class WeatherInfo extends StatelessWidget {
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                     const SizedBox(height: 16),
-                    Image.network(snapshot.data.iconUrl),
+                    Image.network(snapshot.data.currentWeather.iconUrl),
                     const SizedBox(height: 16),
                   ],
                 ),
-                Text(snapshot.data.description, style: TextStyle(fontSize: 20)),
+                Text(snapshot.data.currentWeather.description,
+                    style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 32),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -59,7 +60,7 @@ class WeatherInfo extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text('temperature'),
-                              Text(snapshot.data.temp),
+                              Text(snapshot.data.currentWeather.temp),
                             ],
                           ),
                         ),
@@ -74,7 +75,7 @@ class WeatherInfo extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text('humidity'),
-                              Text(snapshot.data.humidity)
+                              Text(snapshot.data.currentWeather.humidity)
                             ],
                           ),
                         ),
@@ -89,11 +90,11 @@ class WeatherInfo extends StatelessWidget {
                               const Text('wind'),
                               Row(
                                 children: [
-                                  Text(snapshot.data.wind),
+                                  Text(snapshot.data.currentWeather.wind),
                                   const SizedBox(width: 4),
                                   Transform.rotate(
-                                      angle: double.parse(
-                                          snapshot.data.windDegree),
+                                      angle: double.parse(snapshot
+                                          .data.currentWeather.windDegree),
                                       child: const Icon(Icons.arrow_upward,
                                           size: 16))
                                 ],
@@ -107,12 +108,49 @@ class WeatherInfo extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text('pressure'),
-                              Text(snapshot.data.pressure)
+                              Text(snapshot.data.currentWeather.pressure)
                             ],
                           ),
                         )
                       ]),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Row(
+                    children: const [
+                      Text('Next hours'),
+                    ],
+                  ),
+                ),
+                Flexible(
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data.nextHoursWeather.length,
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 8.0);
+                        },
+                        itemBuilder: (context, index) {
+                          return Card(
+                              elevation: 4.0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(snapshot
+                                        .data.nextHoursWeather[index].time),
+                                    Image.network(
+                                        snapshot.data.nextHoursWeather[index]
+                                            .iconUrl,
+                                        scale: 1.1),
+                                    Text(snapshot
+                                        .data.nextHoursWeather[index].temp)
+                                  ],
+                                ),
+                              ));
+                        }))
               ]));
         });
   }

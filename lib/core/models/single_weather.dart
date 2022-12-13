@@ -1,49 +1,42 @@
-import 'package:weather_app/core/models/single_location.dart';
-
 class SingleWeather {
-  final int time;
   final String iconUrl;
-  final String description;
+  final String? description;
   final String temp;
-  final String minTemp;
-  final String feelsLike;
-  final String maxTemp;
-  final String pressure;
-  final String wind;
-  final String windDegree;
-  final String humidity;
-  final SingleLocation location;
+  final String? pressure;
+  final String? wind;
+  final String? windDegree;
+  final String? humidity;
+  final String? time;
 
   const SingleWeather(
-      {required this.time,
-      required this.iconUrl,
-      required this.description,
+      {required this.iconUrl,
+      this.description,
       required this.temp,
-      required this.minTemp,
-      required this.feelsLike,
-      required this.maxTemp,
-      required this.humidity,
-      required this.wind,
-      required this.windDegree,
-      required this.pressure,
-      required this.location});
+      this.humidity,
+      this.wind,
+      this.windDegree,
+      this.pressure,
+      this.time});
 
-  factory SingleWeather.fromMap(
-      Map<String, dynamic> map, SingleLocation location) {
-    return SingleWeather(
-      location: location,
-      time: map['dt'],
-      description: map['weather'][0]['description'],
-      temp: '${map['main']['temp']} ℃',
-      minTemp: '${map['main']['temp_min']} ℃',
-      maxTemp: '${map['main']['temp_max']} ℃',
-      feelsLike: '${map['main']['feels_like']} ℃',
-      pressure: '${map['main']['pressure']} hPa',
-      wind: '${map['wind']['speed']} m/s',
-      windDegree: '${map['wind']['deg']}',
-      humidity: '${map['main']['humidity']} %',
-      iconUrl:
-          'http://openweathermap.org/img/wn/${map["weather"][0]["icon"]}@2x.png',
-    );
+  factory SingleWeather.fromMap(Map<String, dynamic> weather, bool fullInfo) {
+    if (fullInfo) {
+      return SingleWeather(
+        description: weather['weather'][0]['description'],
+        temp: '${weather['main']['temp']}℃',
+        pressure: '${weather['main']['pressure']} hPa',
+        wind: '${weather['wind']['speed']} m/s',
+        windDegree: '${weather['wind']['deg']}',
+        humidity: '${weather['main']['humidity']}%',
+        iconUrl:
+            'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',
+      );
+    } else {
+      return SingleWeather(
+        temp: '${weather['main']['temp']}℃',
+        time: weather['dt_txt'].replaceAll(' ', '\n'),
+        iconUrl:
+            'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',
+      );
+    }
   }
 }

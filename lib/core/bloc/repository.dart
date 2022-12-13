@@ -5,6 +5,7 @@ import 'package:weather_app/core/models/single_location.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
 import 'package:weather_app/core/models/single_weather.dart';
 import 'package:weather_app/core/models/status.dart';
+import 'package:weather_app/core/models/weather.dart';
 import 'package:weather_app/core/services/location_service.dart';
 import 'package:weather_app/core/services/pollution_service.dart';
 import 'package:weather_app/core/services/weather_service.dart';
@@ -22,7 +23,7 @@ class Repository {
   BehaviorSubject<SinglePollution> _pollution =
       BehaviorSubject<SinglePollution>();
 
-  BehaviorSubject<SingleWeather> _weather = BehaviorSubject<SingleWeather>();
+  BehaviorSubject<Weather> _weather = BehaviorSubject<Weather>();
 
   BehaviorSubject<SingleLocation> _location = BehaviorSubject<SingleLocation>();
 
@@ -66,7 +67,7 @@ class Repository {
   }
 
   //inputs
-  Function(SingleWeather) get getWeather => _weather.sink.add;
+  Function(Weather) get getWeather => _weather.sink.add;
   Function(SinglePollution) get getPollution => _pollution.sink.add;
   Function(SingleLocation) get getlocation => _location.sink.add;
   Function(Status) get getStatus => _status.sink.add;
@@ -74,7 +75,7 @@ class Repository {
   // outputs
   Stream<SingleLocation> get location => _location.stream;
 
-  Stream<SingleWeather> get weather {
+  Stream<Weather> get weather {
     if (firstInitialization) {
       getUserLocation();
       firstInitialization = false;

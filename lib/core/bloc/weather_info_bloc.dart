@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:weather_app/core/bloc/repository.dart';
-import 'package:weather_app/core/models/single_weather.dart';
 import 'package:weather_app/core/models/status.dart';
 
 import '../failure.dart';
+import '../models/weather.dart';
 
 class WeatherInfoBloc {
   final Repository _repository;
@@ -22,7 +22,7 @@ class WeatherInfoBloc {
     });
   }
 
-  Stream<SingleWeather> get info => _repository.weather;
+  Stream<Weather> get info => _repository.weather;
 
   void getWeather() => _repository.getUserLocation();
 }
