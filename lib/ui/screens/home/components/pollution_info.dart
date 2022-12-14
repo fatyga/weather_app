@@ -14,7 +14,7 @@ class PollutionInfo extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           } else {
-            return ListView(
+            return Column(
               children: [
                 Container(
                   decoration: BoxDecoration(

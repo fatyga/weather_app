@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class SingleWeather {
   final String iconUrl;
   final String? description;
@@ -33,7 +35,9 @@ class SingleWeather {
     } else {
       return SingleWeather(
         temp: '${weather['main']['temp']}℃',
-        time: weather['dt_txt'].replaceAll(' ', '\n'),
+        time: DateFormat.Hm()
+            .format(DateTime.parse(weather['dt_txt']))
+            .toString(),
         iconUrl:
             'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',
       );

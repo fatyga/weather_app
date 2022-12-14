@@ -20,18 +20,18 @@ class WeatherInfo extends StatelessWidget {
               child: Column(children: [
                 Column(
                   children: [
-                    (snapshot.data.location.autoDetected)
+                    (bloc.currentLocation.autoDetected)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                                 const Icon(Icons.location_on_outlined,
                                     size: 20),
-                                Text(snapshot.data.location.name,
+                                Text(bloc.currentLocation.name,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20)),
                               ])
-                        : Text(snapshot.data.location.name,
+                        : Text(bloc.currentLocation.name,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                     const SizedBox(height: 16),
@@ -144,7 +144,7 @@ class WeatherInfo extends StatelessWidget {
                                     Image.network(
                                         snapshot.data.nextHoursWeather[index]
                                             .iconUrl,
-                                        scale: 1.1),
+                                        scale: 1.5),
                                     Text(snapshot
                                         .data.nextHoursWeather[index].temp)
                                   ],

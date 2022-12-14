@@ -74,6 +74,7 @@ class Repository {
 
   // outputs
   Stream<SingleLocation> get location => _location.stream;
+  SingleLocation get currentLocation => _location.value;
 
   Stream<Weather> get weather {
     if (firstInitialization) {

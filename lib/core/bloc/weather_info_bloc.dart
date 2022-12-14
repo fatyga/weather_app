@@ -3,6 +3,7 @@ import 'package:weather_app/core/bloc/repository.dart';
 import 'package:weather_app/core/models/status.dart';
 
 import '../failure.dart';
+import '../models/single_location.dart';
 import '../models/weather.dart';
 
 class WeatherInfoBloc {
@@ -23,6 +24,7 @@ class WeatherInfoBloc {
   }
 
   Stream<Weather> get info => _repository.weather;
+  SingleLocation get currentLocation => _repository.currentLocation;
 
   void getWeather() => _repository.getUserLocation();
 }

@@ -12,6 +12,6 @@ class WeatherService {
     Response nextHoursWeatherrEsponse = await get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&cnt=5&appid=1ba4d9aff1b4abdd1c75871989db2ded&units=metric'));
     return Weather.fromMaps(jsonDecode(weatherResponse.body),
-        jsonDecode(nextHoursWeatherrEsponse.body)['list'], location);
+        jsonDecode(nextHoursWeatherrEsponse.body)['list']);
   }
 }
