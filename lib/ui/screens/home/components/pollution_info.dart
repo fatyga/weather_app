@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
+import 'package:weather_app/core/models/single_pollution.dart';
 
 class PollutionInfo extends StatelessWidget {
   const PollutionInfo({super.key});
@@ -14,41 +15,54 @@ class PollutionInfo extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           } else {
-            return Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    children: [
-                      const Text('Air Pollution Report',
-                          style: TextStyle(color: Colors.white)),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            children: [
-                              Text(snapshot.data.aqi.toString(),
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
+              child: Column(
+                children: [
+                  (bloc.currentLocation.autoDetected)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              const Icon(Icons.location_on_outlined, size: 20),
+                              Text(bloc.currentLocation.name,
                                   style: const TextStyle(
-                                      fontSize: 40, color: Colors.white)),
-                              Text('/5',
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      color: Colors.white.withOpacity(0.5)))
-                            ],
-                          ),
-                          // Text(model.pollutionInfo['evaluation'],
-                          //     style: const TextStyle(fontSize: 20, color: Colors.white)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                            ])
+                      : Text(bloc.currentLocation.name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)),
+                  const SizedBox(height: 32),
+                  Text(SinglePollution.descriptions[snapshot.data.aqi],
+                      style: TextStyle(
+                          fontSize: 28,
+                          color: SinglePollution.colors[snapshot.data.aqi])),
+                  const SizedBox(height: 32),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: snapshot.data.airComponents.components
+                          .map<Widget>((element) => Column(
+                                children: [
+                                  Text(element.name),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                      width: 54,
+                                      height: 54,
+                                      decoration: BoxDecoration(
+                                          color: element.color[100],
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Center(
+                                        child: Text(element.value.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: element.color[700])),
+                                      ))
+                                ],
+                              ))
+                          .toList())
+                ],
+              ),
             );
           }
         });
