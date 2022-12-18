@@ -25,7 +25,7 @@ class SinglePollution {
 
   factory SinglePollution.fromMap(Map<String, dynamic> map) {
     return SinglePollution(
-        aqi: map['list'][0]['main']['aqi'] - 1,
+        aqi: (map['list'][0]['main']['aqi'] - 1),
         airComponents: Components.fromJson(map['list'][0]['components']));
   }
 }
@@ -69,6 +69,9 @@ class Component {
     int i = 0;
     while (value > range[i]) {
       i++;
+      if (i == ranges.length) {
+        break;
+      }
     }
     index = i;
 
