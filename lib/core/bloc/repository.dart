@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:weather_app/core/failure.dart';
+import 'package:weather_app/core/models/pollution.dart';
 import 'package:weather_app/core/models/single_location.dart';
-import 'package:weather_app/core/models/single_pollution.dart';
-import 'package:weather_app/core/models/single_weather.dart';
 import 'package:weather_app/core/models/status.dart';
 import 'package:weather_app/core/models/weather.dart';
 import 'package:weather_app/core/services/location_service.dart';
@@ -20,8 +19,7 @@ class Repository {
 
   List<SingleLocation> recentLocations = [];
 
-  BehaviorSubject<SinglePollution> _pollution =
-      BehaviorSubject<SinglePollution>();
+  BehaviorSubject<Pollution> _pollution = BehaviorSubject<Pollution>();
 
   BehaviorSubject<Weather> _weather = BehaviorSubject<Weather>();
 
@@ -68,7 +66,7 @@ class Repository {
 
   //inputs
   Function(Weather) get getWeather => _weather.sink.add;
-  Function(SinglePollution) get getPollution => _pollution.sink.add;
+  Function(Pollution) get getPollution => _pollution.sink.add;
   Function(SingleLocation) get getlocation => _location.sink.add;
   Function(Status) get getStatus => _status.sink.add;
 
@@ -85,7 +83,7 @@ class Repository {
     return _weather.stream;
   }
 
-  Stream<SinglePollution> get pollution => _pollution.stream;
+  Stream<Pollution> get pollution => _pollution.stream;
 
   Stream<Status> get status => _status.stream;
 }

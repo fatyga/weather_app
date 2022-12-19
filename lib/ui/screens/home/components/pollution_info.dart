@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
+import 'package:weather_app/ui/screens/home/components/pollution_forecast.dart';
 
 class PollutionInfo extends StatelessWidget {
   const PollutionInfo({super.key});
@@ -35,14 +34,18 @@ class PollutionInfo extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20)),
                   const SizedBox(height: 32),
-                  Text(SinglePollution.descriptions[snapshot.data.aqi],
+                  Text(
+                      SinglePollution
+                          .descriptions[snapshot.data.currentPollution.aqi],
                       style: TextStyle(
                           fontSize: 28,
-                          color: SinglePollution.colors[snapshot.data.aqi])),
+                          color: SinglePollution
+                              .colors[snapshot.data.currentPollution.aqi])),
                   const SizedBox(height: 32),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: snapshot.data.airComponents.components
+                      children: snapshot
+                          .data.currentPollution.airComponents.components
                           .map<Widget>((element) => Column(
                                 children: [
                                   customizeAirComponentName(
@@ -63,7 +66,18 @@ class PollutionInfo extends StatelessWidget {
                                       ))
                                 ],
                               ))
-                          .toList())
+                          .toList()),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Row(
+                      children: const [
+                        Text('Next hours'),
+                      ],
+                    ),
+                  ),
+                  AirPollutionForecast(
+                      forecast: snapshot.data.nextHoursPollution,
+                      fn: customizeAirComponentName)
                 ],
               ),
             );

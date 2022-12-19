@@ -25,8 +25,8 @@ class SinglePollution {
 
   factory SinglePollution.fromMap(Map<String, dynamic> map) {
     return SinglePollution(
-        aqi: (map['list'][0]['main']['aqi'] - 1),
-        airComponents: Components.fromJson(map['list'][0]['components']));
+        aqi: (map['main']['aqi'] - 1),
+        airComponents: Components.fromJson(map['components']));
   }
 }
 
