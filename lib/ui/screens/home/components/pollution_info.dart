@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
+import 'package:weather_app/core/constants/enums.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
+import 'package:weather_app/ui/screens/home/components/pollution_components_overview.dart';
 import 'package:weather_app/ui/screens/home/components/pollution_forecast.dart';
 
 class PollutionInfo extends StatelessWidget {
@@ -42,31 +44,10 @@ class PollutionInfo extends StatelessWidget {
                           color: SinglePollution
                               .colors[snapshot.data.currentPollution.aqi])),
                   const SizedBox(height: 32),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: snapshot
-                          .data.currentPollution.airComponents.components
-                          .map<Widget>((element) => Column(
-                                children: [
-                                  customizeAirComponentName(
-                                      element.name, context),
-                                  const SizedBox(height: 8),
-                                  Container(
-                                      width: 54,
-                                      height: 54,
-                                      decoration: BoxDecoration(
-                                          color: element.color[100],
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: Center(
-                                        child: Text(element.value.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: element.color[700])),
-                                      ))
-                                ],
-                              ))
-                          .toList()),
+                  AirComponentsOverview(
+                      size: AirComponentSize.standard,
+                      airComponents: snapshot
+                          .data.currentPollution.airComponents.components),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Row(
@@ -76,44 +57,12 @@ class PollutionInfo extends StatelessWidget {
                     ),
                   ),
                   AirPollutionForecast(
-                      forecast: snapshot.data.nextHoursPollution,
-                      fn: customizeAirComponentName)
+                    forecast: snapshot.data.nextHoursPollution,
+                  )
                 ],
               ),
             );
           }
         });
-  }
-
-  Widget customizeAirComponentName(String name, BuildContext context) {
-    final chunks = name.toUpperCase().replaceAll('_', '').split("");
-    final charCodes = [
-      '\u2080',
-      '\u2081',
-      '\u2082',
-      '\u2083',
-      '\u2084',
-      '\u2085',
-      '\u2086',
-      '\u2087',
-      '\u2088',
-      '\u2089'
-    ];
-
-    return RichText(
-        text: TextSpan(
-            style: DefaultTextStyle.of(context).style.copyWith(fontSize: 16),
-            children: chunks.map((e) {
-              if (num.tryParse(e) == null) {
-                return TextSpan(
-                  text: e,
-                );
-              } else {
-                final charNum = int.parse(e);
-                return TextSpan(
-                  text: charCodes[charNum],
-                );
-              }
-            }).toList()));
   }
 }

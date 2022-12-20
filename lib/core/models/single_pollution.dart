@@ -20,12 +20,15 @@ class SinglePollution {
 
   final int aqi;
   final Components airComponents;
+  final int time;
 
-  SinglePollution({required this.aqi, required this.airComponents});
+  SinglePollution(
+      {required this.aqi, required this.airComponents, required this.time});
 
   factory SinglePollution.fromMap(Map<String, dynamic> map) {
     return SinglePollution(
         aqi: (map['main']['aqi'] - 1),
+        time: (map['dt']),
         airComponents: Components.fromJson(map['components']));
   }
 }

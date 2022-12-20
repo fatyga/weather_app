@@ -1,0 +1,1 @@
+enum AirComponentSize { standard, small }
