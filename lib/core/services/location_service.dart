@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:weather_app/core/failure.dart';
 import 'package:weather_app/core/models/single_location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/core/services/timezone_service.dart';
 
 class LocationService {
   Future<SingleLocation> getCoordinatesFromName(String cityName) async {
@@ -12,8 +13,9 @@ class LocationService {
           'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
       dynamic result = jsonDecode(response.body);
-
-      return SingleLocation.fromMap(result[0]);
+      var timezone = await TimezoneService()
+          .getTimezoneFromCoordinates(result['lat'], result['long']);
+      return SingleLocation.fromMap(result[0], timezone);
     } on SocketException {
       throw const Failure(message: 'Check your internet connection.');
     } on HttpException {
@@ -30,8 +32,9 @@ class LocationService {
           'http://api.openweathermap.org/geo/1.0/reverse?lat=$latitude&lon=$longitude&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
       dynamic result = jsonDecode(response.body);
-
-      return SingleLocation.fromMap(result[0]);
+      var timezone = await TimezoneService()
+          .getTimezoneFromCoordinates(latitude, longitude);
+      return SingleLocation.fromMap(result[0], timezone);
     } on SocketException {
       throw const Failure(message: 'Check your internet connection.');
     } on HttpException {

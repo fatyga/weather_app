@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/core/constants/enums.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
 import 'package:weather_app/ui/screens/home/components/pollution_components_overview.dart';
 
 class AirPollutionForecast extends StatefulWidget {
-  const AirPollutionForecast({super.key, required this.forecast});
+  const AirPollutionForecast({
+    super.key,
+    required this.forecast,
+  });
   final List<SinglePollution> forecast;
 
   @override
@@ -33,6 +37,8 @@ class _AirPollutionForecastState extends State<AirPollutionForecast> {
                       return ListTile(
                           title: Row(
                         children: [
+                          Text(DateFormat.Hm().format(e.time)),
+                          const SizedBox(width: 16),
                           Text(SinglePollution.descriptions[e.aqi]),
                         ],
                       ));

@@ -12,6 +12,7 @@ class WeatherInfoBloc {
   WeatherInfoBloc(this._repository) {
     _repository.location.listen((event) async {
       _repository.setStatus(StatusState.fetching, 'fetching weather info');
+
       try {
         final weather = await _repository.weatherService.getWeather(event);
         _repository.getWeather(weather);

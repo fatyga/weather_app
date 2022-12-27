@@ -35,6 +35,7 @@ class PollutionInfo extends StatelessWidget {
                       : Text(bloc.currentLocation.name,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20)),
+                  Text(bloc.currentLocation.timezone.localTime.toString()),
                   const SizedBox(height: 32),
                   Text(
                       SinglePollution

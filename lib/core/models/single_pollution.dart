@@ -20,15 +20,21 @@ class SinglePollution {
 
   final int aqi;
   final Components airComponents;
-  final int time;
+  final DateTime time;
+  final int utcOffset;
 
   SinglePollution(
-      {required this.aqi, required this.airComponents, required this.time});
+      {required this.aqi,
+      required this.airComponents,
+      required this.time,
+      required this.utcOffset});
 
-  factory SinglePollution.fromMap(Map<String, dynamic> map) {
+  factory SinglePollution.fromMap(int utcOffset, Map<String, dynamic> map) {
+    var time = map['dt'] + utcOffset;
     return SinglePollution(
+        utcOffset: utcOffset,
         aqi: (map['main']['aqi'] - 1),
-        time: (map['dt']),
+        time: DateTime.fromMillisecondsSinceEpoch(time * 1000),
         airComponents: Components.fromJson(map['components']));
   }
 }
@@ -42,7 +48,7 @@ class Components {
     final componentsList = <Component>[];
     final filteredComponents = Map.from(json)
       ..removeWhere((key, value) => !Component.ranges.containsKey(key));
-    print(filteredComponents);
+
     filteredComponents
         .forEach((k, v) => componentsList.add(Component(k, v.toDouble())));
 
@@ -78,7 +84,6 @@ class Component {
     }
     index = i;
 
-    print('$name, $value, $index');
     color = SinglePollution.colors[index];
   }
 }
