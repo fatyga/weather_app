@@ -16,8 +16,7 @@ class WeatherInfoBloc {
       try {
         final weather = await _repository.weatherService.getWeather(event);
         _repository.getWeather(weather);
-        _repository.setStatus(
-            StatusState.success, 'info fetched succesfully', getWeather);
+        _repository.setStatus(StatusState.success, 'Success!', getWeather);
       } on Failure catch (f) {
         _repository.setStatus(StatusState.error, f.message);
       }

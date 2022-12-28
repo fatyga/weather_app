@@ -29,18 +29,10 @@ class Repository {
 
   void setStatus(StatusState newStatus, String? comment, [Function()? action]) {
     _status.sink.add(Status(newStatus, comment, action));
-    if (newStatus == StatusState.success) {
-      Future.delayed(Duration(seconds: 5), () {
-        _status.sink.add(Status(
-            StatusState.success,
-            'Last update: ${DateFormat.yMd().add_jm().format(DateTime.now())}',
-            action));
-      });
-    }
   }
 
   Future<void> getUserLocation() async {
-    setStatus(StatusState.fetching, 'detect location');
+    setStatus(StatusState.fetching, 'detecting location');
     SingleLocation location;
 
     try {

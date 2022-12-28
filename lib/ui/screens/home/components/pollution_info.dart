@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/core/constants/enums.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
@@ -35,7 +36,9 @@ class PollutionInfo extends StatelessWidget {
                       : Text(bloc.currentLocation.name,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20)),
-                  Text(bloc.currentLocation.timezone.localTime.toString()),
+                  Text(DateFormat.yMMMEd()
+                      .add_Hm()
+                      .format(bloc.currentLocation.timezone.localTime)),
                   const SizedBox(height: 32),
                   Text(
                       SinglePollution

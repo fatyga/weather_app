@@ -54,7 +54,8 @@ class AirComponentsOverview extends StatelessWidget {
 
     return RichText(
         text: TextSpan(
-            style: DefaultTextStyle.of(context).style.copyWith(fontSize: 16),
+            style: DefaultTextStyle.of(context).style.copyWith(
+                fontSize: size == AirComponentSize.standard ? 16 : 12),
             children: chunks.map((e) {
               if (num.tryParse(e) == null) {
                 return TextSpan(

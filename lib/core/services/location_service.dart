@@ -14,7 +14,7 @@ class LocationService {
 
       dynamic result = jsonDecode(response.body);
       var timezone = await TimezoneService()
-          .getTimezoneFromCoordinates(result['lat'], result['long']);
+          .getTimezoneFromCoordinates(result[0]['lat'], result[0]['lon']);
       return SingleLocation.fromMap(result[0], timezone);
     } on SocketException {
       throw const Failure(message: 'Check your internet connection.');

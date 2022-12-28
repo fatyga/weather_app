@@ -39,7 +39,10 @@ class _AirPollutionForecastState extends State<AirPollutionForecast> {
                         children: [
                           Text(DateFormat.Hm().format(e.time)),
                           const SizedBox(width: 16),
-                          Text(SinglePollution.descriptions[e.aqi]),
+                          Text(SinglePollution.descriptions[e.aqi],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: SinglePollution.colors[e.aqi])),
                         ],
                       ));
                     },

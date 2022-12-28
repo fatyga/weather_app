@@ -7,7 +7,6 @@ class LocationTimezone {
   factory LocationTimezone.fromMap(Map<String, dynamic> map) {
     var localTime = DateTime.parse(map['currentLocalTime']);
     return LocationTimezone(
-        localTime: localTime,
-        utcOffset: map['dstInterval']['dstOffsetToUtc']['seconds']);
+        localTime: localTime, utcOffset: map['standardUtcOffset']['seconds']);
   }
 }
