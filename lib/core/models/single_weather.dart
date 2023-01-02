@@ -39,6 +39,9 @@ class SingleWeather {
     } else {
       return SingleWeather(
         temp: '${weather['main']['temp']}℃',
+        pressure: '${weather['main']['pressure']} hPa',
+        wind: '${weather['wind']['speed']} m/s',
+        humidity: '${weather['main']['humidity']}%',
         time: DateTime.parse(weather['dt_txt']),
         iconUrl:
             'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',

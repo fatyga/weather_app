@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
+import 'package:weather_app/ui/screens/home/components/weather_forecast_card.dart';
 import 'package:weather_app/ui/shared/app_styles.dart';
 
 class WeatherInfo extends StatelessWidget {
@@ -134,26 +135,8 @@ class WeatherInfo extends StatelessWidget {
                           return const SizedBox(width: 8.0);
                         },
                         itemBuilder: (context, index) {
-                          return Card(
-                              elevation: 4.0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(DateFormat.Hm().format(snapshot
-                                        .data.nextHoursWeather[index].time)),
-                                    Image.network(
-                                        snapshot.data.nextHoursWeather[index]
-                                            .iconUrl,
-                                        scale: 1.5),
-                                    Text(snapshot
-                                        .data.nextHoursWeather[index].temp)
-                                  ],
-                                ),
-                              ));
+                          return WeatherForecastCard(
+                              weather: snapshot.data.nextHoursWeather[index]);
                         }))
               ]));
         });
