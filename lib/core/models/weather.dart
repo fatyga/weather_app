@@ -10,12 +10,13 @@ class Weather {
     required this.nextHoursWeather,
   });
 
-  factory Weather.fromMaps(
-      Map<String, dynamic> currentWeather, List<dynamic> nextHoursWeather) {
+  factory Weather.fromMaps(int utcOffset, Map<String, dynamic> currentWeather,
+      List<dynamic> nextHoursWeather) {
     return Weather(
-      currentWeather: SingleWeather.fromMap(currentWeather, true),
-      nextHoursWeather:
-          nextHoursWeather.map((e) => SingleWeather.fromMap(e, false)).toList(),
+      currentWeather: SingleWeather.fromMap(utcOffset, currentWeather, true),
+      nextHoursWeather: nextHoursWeather
+          .map((e) => SingleWeather.fromMap(utcOffset, e, false))
+          .toList(),
     );
   }
 }

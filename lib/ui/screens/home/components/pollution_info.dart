@@ -38,7 +38,7 @@ class PollutionInfo extends StatelessWidget {
                               fontWeight: FontWeight.bold, fontSize: 20)),
                   Text(DateFormat.yMMMEd()
                       .add_Hm()
-                      .format(bloc.currentLocation.timezone.localTime)),
+                      .format(snapshot.data.currentPollution.time)),
                   const SizedBox(height: 32),
                   Text(
                       SinglePollution

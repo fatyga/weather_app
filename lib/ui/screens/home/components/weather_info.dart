@@ -37,7 +37,7 @@ class WeatherInfo extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                     Text(DateFormat.yMMMEd()
                         .add_Hm()
-                        .format(bloc.currentLocation.timezone.localTime)),
+                        .format(snapshot.data.currentWeather.time)),
                     const SizedBox(height: 16),
                     Image.network(snapshot.data.currentWeather.iconUrl),
                     const SizedBox(height: 16),
@@ -143,8 +143,8 @@ class WeatherInfo extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(snapshot
-                                        .data.nextHoursWeather[index].time),
+                                    Text(DateFormat.Hm().format(snapshot
+                                        .data.nextHoursWeather[index].time)),
                                     Image.network(
                                         snapshot.data.nextHoursWeather[index]
                                             .iconUrl,
