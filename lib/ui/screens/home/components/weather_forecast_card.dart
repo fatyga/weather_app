@@ -11,11 +11,11 @@ class WeatherForecastCard extends StatefulWidget {
 }
 
 class _WeatherForecastCardState extends State<WeatherForecastCard> {
-  bool frontSide = true;
+  bool extended = false;
 
   void toogleSide() {
     setState(() {
-      frontSide = !frontSide;
+      extended = !extended;
     });
   }
 
@@ -27,12 +27,17 @@ class _WeatherForecastCardState extends State<WeatherForecastCard> {
         onTap: toogleSide,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
             children: [
-              Text(DateFormat.Hm().format(widget.weather.time)),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(DateFormat.Hm().format(widget.weather.time)),
+                    Image.network(widget.weather.iconUrl, scale: 1.5),
+                    Text(widget.weather.temp),
+                  ]),
+              extended ? const VerticalDivider() : Container(),
               showSide(),
-              Text(widget.weather.temp)
             ],
           ),
         ),
@@ -41,38 +46,39 @@ class _WeatherForecastCardState extends State<WeatherForecastCard> {
   }
 
   Widget showSide() {
-    if (frontSide) {
-      return Image.network(widget.weather.iconUrl, scale: 1.5);
+    if (extended) {
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                const Text('wind',
+                    style: TextStyle(
+                      fontSize: 10,
+                    )),
+                Text(widget.weather.wind.toString(),
+                    style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            const Divider(color: Colors.black),
+            Column(
+              children: [
+                const Text('humidity', style: TextStyle(fontSize: 10)),
+                Text(widget.weather.humidity.toString(),
+                    style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            const Divider(color: Colors.black),
+            Column(
+              children: [
+                const Text('pressure', style: TextStyle(fontSize: 10)),
+                Text(widget.weather.pressure.toString(),
+                    style: TextStyle(fontSize: 12))
+              ],
+            ),
+          ]);
     } else {
-      return Expanded(
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Column(
-            children: [
-              const Text('wind',
-                  style: TextStyle(
-                    fontSize: 10,
-                  )),
-              Text(widget.weather.wind.toString(),
-                  style: TextStyle(fontSize: 12)),
-            ],
-          ),
-          Column(
-            children: [
-              const Text('humidity', style: TextStyle(fontSize: 10)),
-              Text(widget.weather.humidity.toString(),
-                  style: TextStyle(fontSize: 12)),
-            ],
-          ),
-          Column(
-            children: [
-              const Text('pressure', style: TextStyle(fontSize: 10)),
-              Text(widget.weather.pressure.toString(),
-                  style: TextStyle(fontSize: 12))
-            ],
-          ),
-        ]),
-      );
+      return Container();
     }
   }
 }
