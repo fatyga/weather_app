@@ -5,6 +5,7 @@ import 'package:weather_app/ui/screens/home/components/status_bar.dart';
 import 'package:weather_app/ui/screens/location_search/location_search.dart';
 import 'package:weather_app/ui/screens/home/components/pollution_info.dart';
 import 'package:weather_app/ui/screens/home/components/weather_info.dart';
+import 'package:weather_app/ui/screens/settings/settings.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int index = 0;
 
-  List<Widget> pages = [WeatherInfo(), PollutionInfo()];
+  List<Widget> pages = [WeatherInfo(), PollutionInfo(), LocationSearch()];
 
   void setIndex(int newIndex) {
     setState(() {
@@ -29,8 +30,6 @@ class _HomeState extends State<Home> {
     final bloc = BlocProvider.of(context).homeBloc;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
         title: StreamBuilder(
             stream: bloc.status,
             initialData: Status(StatusState.fetching, ''),
@@ -40,10 +39,10 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => LocationSearch()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Settings()));
               },
-              icon: const Icon(Icons.location_city, color: Colors.black))
+              icon: const Icon(Icons.settings, color: Colors.black)),
         ],
       ),
       body: pages[index],
@@ -53,7 +52,9 @@ class _HomeState extends State<Home> {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.cloud), label: 'Weather'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.public_outlined), label: 'Air Pollution')
+                icon: Icon(Icons.public_outlined), label: 'Air Pollution'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.location_city), label: 'Locations')
           ]),
     );
   }

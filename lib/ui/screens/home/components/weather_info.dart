@@ -47,77 +47,76 @@ class WeatherInfo extends StatelessWidget {
                 Text(snapshot.data.currentWeather.description,
                     style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 32),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('temperature'),
-                              Text(snapshot.data.currentWeather.temp),
-                            ],
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.grey))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('temperature'),
+                                Text(snapshot.data.currentWeather.temp),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                            color: Colors.grey,
-                          ))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('humidity'),
-                              Text(snapshot.data.currentWeather.humidity)
-                            ],
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                              color: Colors.grey,
+                            ))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('humidity'),
+                                Text(snapshot.data.currentWeather.humidity)
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('wind'),
-                              Row(
-                                children: [
-                                  Text(snapshot.data.currentWeather.wind),
-                                  const SizedBox(width: 4),
-                                  Transform.rotate(
-                                      angle: double.parse(snapshot
-                                          .data.currentWeather.windDegree),
-                                      child: const Icon(Icons.arrow_upward,
-                                          size: 16))
-                                ],
-                              ),
-                            ],
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.grey))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('wind'),
+                                Row(
+                                  children: [
+                                    Text(snapshot.data.currentWeather.wind),
+                                    const SizedBox(width: 4),
+                                    Transform.rotate(
+                                        angle: double.parse(snapshot
+                                            .data.currentWeather.windDegree),
+                                        child: const Icon(Icons.arrow_upward,
+                                            size: 16))
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('pressure'),
-                              Text(snapshot.data.currentWeather.pressure)
-                            ],
-                          ),
-                        )
-                      ]),
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('pressure'),
+                                Text(snapshot.data.currentWeather.pressure)
+                              ],
+                            ),
+                          )
+                        ]),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),

@@ -4,6 +4,7 @@ import 'package:weather_app/core/bloc/home_bloc.dart';
 import 'package:weather_app/core/bloc/location_search_bloc.dart';
 import 'package:weather_app/core/bloc/pollution_info_bloc.dart';
 import 'package:weather_app/core/bloc/repository.dart';
+import 'package:weather_app/core/bloc/themeBloc.dart';
 import 'package:weather_app/core/bloc/weather_info_bloc.dart';
 import 'package:weather_app/weather_app.dart';
 
@@ -15,5 +16,6 @@ void main() {
       weatherInfoBloc: WeatherInfoBloc(repo),
       locationSearchBloc: LocationSearchBloc(repo),
       pollutionInfoBloc: PollutionInfoBloc(repo),
+      themeBloc: ThemeBloc(repo),
       homeBloc: HomeBloc(repo)));
 }

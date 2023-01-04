@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:weather_app/core/failure.dart';
 import 'package:weather_app/core/models/pollution.dart';
@@ -27,8 +28,14 @@ class Repository {
 
   BehaviorSubject<Status> _status = BehaviorSubject<Status>();
 
+  BehaviorSubject<ThemeMode> _theme = BehaviorSubject<ThemeMode>();
+
   void setStatus(StatusState newStatus, String? comment, [Function()? action]) {
     _status.sink.add(Status(newStatus, comment, action));
+  }
+
+  void toggleTheme(bool isDark) {
+    isDark ? _theme.add(ThemeMode.dark) : _theme.add(ThemeMode.light);
   }
 
   Future<void> getUserLocation() async {
@@ -61,6 +68,7 @@ class Repository {
   Function(Pollution) get getPollution => _pollution.sink.add;
   Function(SingleLocation) get getlocation => _location.sink.add;
   Function(Status) get getStatus => _status.sink.add;
+  Function(ThemeMode) get getTheme => _theme.sink.add;
 
   // outputs
   Stream<SingleLocation> get location => _location.stream;
@@ -78,4 +86,5 @@ class Repository {
   Stream<Pollution> get pollution => _pollution.stream;
 
   Stream<Status> get status => _status.stream;
+  Stream<ThemeMode> get theme => _theme.stream;
 }

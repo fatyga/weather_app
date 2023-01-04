@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/ui/screens/home/home.dart';
+import 'package:weather_app/ui/shared/theme/dark_theme.dart';
+import 'package:weather_app/ui/shared/theme/light_theme.dart';
+
+import 'core/bloc/bloc_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Weather App', debugShowCheckedModeBanner: false, home: Home());
+    final themeBloc = BlocProvider.of(context).themeBloc;
+    return StreamBuilder(
+      stream: themeBloc.theme,
+      builder: (context, themeMode) => MaterialApp(
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode.data,
+          title: 'Weather App',
+          debugShowCheckedModeBanner: false,
+          home: const Home()),
+    );
   }
 }

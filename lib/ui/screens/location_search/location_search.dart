@@ -19,7 +19,6 @@ class _CitySearchState extends State<LocationSearch> {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context).locationSearchBloc;
     return Scaffold(
-        appBar: AppBar(title: const Text('Find out city')),
         body: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -38,7 +37,6 @@ class _CitySearchState extends State<LocationSearch> {
                       });
                       if (cityNameController.text.isNotEmpty) {
                         bloc.getLocationFromName(cityNameController.text);
-                        Navigator.of(context).pop();
                       }
                     },
                     child: const Text('Search')),
