@@ -6,11 +6,16 @@ import 'package:weather_app/ui/shared/theme/light_theme.dart';
 import 'core/bloc/bloc_provider.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.savedDarkTheme});
+  final bool? savedDarkTheme;
 
   @override
   Widget build(BuildContext context) {
     final themeBloc = BlocProvider.of(context).themeBloc;
+    if (savedDarkTheme != null) {
+      themeBloc.toggleTheme(savedDarkTheme!);
+    }
+
     return StreamBuilder(
       stream: themeBloc.theme,
       builder: (context, themeMode) => MaterialApp(

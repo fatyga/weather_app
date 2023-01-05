@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/core/failure.dart';
 import 'package:weather_app/core/models/pollution.dart';
 import 'package:weather_app/core/models/single_location.dart';
@@ -34,8 +35,10 @@ class Repository {
     _status.sink.add(Status(newStatus, comment, action));
   }
 
-  void toggleTheme(bool isDark) {
+  void toggleTheme(bool isDark) async {
     isDark ? _theme.add(ThemeMode.dark) : _theme.add(ThemeMode.light);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('darkTheme', isDark);
   }
 
   Future<void> getUserLocation() async {
