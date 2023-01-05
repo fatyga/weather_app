@@ -19,52 +19,51 @@ class PollutionInfo extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           } else {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
-              child: Column(
-                children: [
-                  (bloc.currentLocation.autoDetected)
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                              const Icon(Icons.location_on_outlined, size: 20),
-                              Text(bloc.currentLocation.name,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                            ])
-                      : Text(bloc.currentLocation.name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                  Text(DateFormat.yMMMEd()
+            return Column(
+              children: [
+                (bloc.currentLocation.autoDetected)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            const Icon(Icons.location_on_outlined, size: 20),
+                            Text(bloc.currentLocation.name,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall),
+                          ])
+                    : Text(bloc.currentLocation.name,
+                        style: Theme.of(context).textTheme.headlineSmall),
+                const SizedBox(height: 2),
+                Text(
+                  DateFormat.yMMMEd()
                       .add_Hm()
-                      .format(snapshot.data.currentPollution.time)),
-                  const SizedBox(height: 32),
-                  Text(
-                      SinglePollution
-                          .descriptions[snapshot.data.currentPollution.aqi],
-                      style: TextStyle(
-                          fontSize: 28,
-                          color: SinglePollution
-                              .colors[snapshot.data.currentPollution.aqi])),
-                  const SizedBox(height: 32),
-                  AirComponentsOverview(
-                      size: AirComponentSize.standard,
-                      airComponents: snapshot
-                          .data.currentPollution.airComponents.components),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      children: const [
-                        Text('Next hours'),
-                      ],
-                    ),
+                      .format(snapshot.data.currentPollution.time),
+                ),
+                const SizedBox(height: 32),
+                Text(
+                    SinglePollution
+                        .descriptions[snapshot.data.currentPollution.aqi],
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: SinglePollution
+                            .colors[snapshot.data.currentPollution.aqi])),
+                const SizedBox(height: 32),
+                AirComponentsOverview(
+                    size: AirComponentSize.standard,
+                    airComponents: snapshot
+                        .data.currentPollution.airComponents.components),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Next hours',
+                          style: Theme.of(context).textTheme.subtitle2),
+                    ],
                   ),
-                  AirPollutionForecast(
-                    forecast: snapshot.data.nextHoursPollution,
-                  )
-                ],
-              ),
+                ),
+                AirPollutionForecast(
+                  forecast: snapshot.data.nextHoursPollution,
+                )
+              ],
             );
           }
         });

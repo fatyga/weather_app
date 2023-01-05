@@ -17,7 +17,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int index = 0;
 
-  List<Widget> pages = [WeatherInfo(), PollutionInfo(), LocationSearch()];
+  late List<Widget> pages;
+
+  @override
+  void initState() {
+    pages = [
+      WeatherInfo(),
+      PollutionInfo(),
+      LocationSearch(backToWeather: () => setIndex(0))
+    ];
+    super.initState();
+  }
 
   void setIndex(int newIndex) {
     setState(() {
@@ -42,10 +52,13 @@ class _HomeState extends State<Home> {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => Settings()));
               },
-              icon: const Icon(Icons.settings, color: Colors.black)),
+              icon: const Icon(Icons.settings)),
         ],
       ),
-      body: pages[index],
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
+        child: pages[index],
+      ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: index,
           onTap: setIndex,

@@ -17,127 +17,125 @@ class WeatherInfo extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           }
-          return Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
-              child: Column(children: [
-                Column(
-                  children: [
-                    (bloc.currentLocation.autoDetected)
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                                const Icon(Icons.location_on_outlined,
-                                    size: 20),
-                                Text(bloc.currentLocation.name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)),
-                              ])
-                        : Text(bloc.currentLocation.name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20)),
-                    Text(DateFormat.yMMMEd()
-                        .add_Hm()
-                        .format(snapshot.data.currentWeather.time)),
-                    const SizedBox(height: 16),
-                    Image.network(snapshot.data.currentWeather.iconUrl),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-                Text(snapshot.data.currentWeather.description,
-                    style: TextStyle(fontSize: 20)),
-                const SizedBox(height: 32),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+          return Column(children: [
+            Column(
+              children: [
+                (bloc.currentLocation.autoDetected)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Colors.grey))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            const Icon(Icons.location_on_outlined, size: 20),
+                            Text(bloc.currentLocation.name,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall),
+                          ])
+                    : Text(bloc.currentLocation.name,
+                        style: Theme.of(context).textTheme.headlineSmall),
+                const SizedBox(height: 2),
+                Text(DateFormat.yMMMEd()
+                    .add_Hm()
+                    .format(snapshot.data.currentWeather.time)),
+                const SizedBox(height: 16),
+                Image.network(snapshot.data.currentWeather.iconUrl),
+                const SizedBox(height: 16),
+              ],
+            ),
+            Text(snapshot.data.currentWeather.description,
+                style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 32),
+            Card(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border:
+                                Border(bottom: BorderSide(color: Colors.grey))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('temperature'),
+                            Text(snapshot.data.currentWeather.temp),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                          color: Colors.grey,
+                        ))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('humidity'),
+                            Text(snapshot.data.currentWeather.humidity)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border:
+                                Border(bottom: BorderSide(color: Colors.grey))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('wind'),
+                            Row(
                               children: [
-                                const Text('temperature'),
-                                Text(snapshot.data.currentWeather.temp),
+                                Text(snapshot.data.currentWeather.wind),
+                                const SizedBox(width: 4),
+                                Transform.rotate(
+                                    angle: double.parse(snapshot
+                                        .data.currentWeather.windDegree),
+                                    child: const Icon(Icons.arrow_upward,
+                                        size: 16))
                               ],
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                              color: Colors.grey,
-                            ))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text('humidity'),
-                                Text(snapshot.data.currentWeather.humidity)
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Colors.grey))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text('wind'),
-                                Row(
-                                  children: [
-                                    Text(snapshot.data.currentWeather.wind),
-                                    const SizedBox(width: 4),
-                                    Transform.rotate(
-                                        angle: double.parse(snapshot
-                                            .data.currentWeather.windDegree),
-                                        child: const Icon(Icons.arrow_upward,
-                                            size: 16))
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text('pressure'),
-                                Text(snapshot.data.currentWeather.pressure)
-                              ],
-                            ),
-                          )
-                        ]),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    children: const [
-                      Text('Next hours'),
-                    ],
-                  ),
-                ),
-                Flexible(
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data.nextHoursWeather.length,
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(width: 8.0);
-                        },
-                        itemBuilder: (context, index) {
-                          return WeatherForecastCard(
-                              weather: snapshot.data.nextHoursWeather[index]);
-                        }))
-              ]));
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('pressure'),
+                            Text(snapshot.data.currentWeather.pressure)
+                          ],
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Next hours',
+                      style: Theme.of(context).textTheme.subtitle2),
+                ],
+              ),
+            ),
+            Flexible(
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.nextHoursWeather.length,
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 8.0);
+                    },
+                    itemBuilder: (context, index) {
+                      return WeatherForecastCard(
+                          weather: snapshot.data.nextHoursWeather[index]);
+                    }))
+          ]);
         });
   }
 }
