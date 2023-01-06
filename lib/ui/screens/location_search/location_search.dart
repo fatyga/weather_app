@@ -55,7 +55,7 @@ class _CitySearchState extends State<LocationSearch> {
                     title: title,
                     onTap: () {
                       bloc.getLocation(bloc.recentLocations[index]);
-                      Navigator.of(context).pop();
+                      widget.backToWeather();
                     });
               }),
         )

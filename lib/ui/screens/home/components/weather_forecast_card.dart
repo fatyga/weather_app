@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/models/single_weather.dart';
+import 'package:weather_app/ui/screens/home/components/weather_icon.dart';
 
 class WeatherForecastCard extends StatefulWidget {
   const WeatherForecastCard({super.key, required this.weather});
@@ -33,7 +35,7 @@ class _WeatherForecastCardState extends State<WeatherForecastCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(DateFormat.Hm().format(widget.weather.time)),
-                    Image.network(widget.weather.iconUrl, scale: 1.5),
+                    WeatherIcon(iconCode: widget.weather.iconCode, size: 72),
                     Text(widget.weather.temp),
                   ]),
               extended ? const VerticalDivider() : Container(),

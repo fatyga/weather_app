@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class SingleWeather {
-  final String iconUrl;
+  final String iconCode;
   final String? description;
   final String temp;
   final String? pressure;
@@ -11,7 +11,7 @@ class SingleWeather {
   final DateTime time;
 
   const SingleWeather({
-    required this.iconUrl,
+    required this.iconCode,
     this.description,
     required this.temp,
     this.humidity,
@@ -33,8 +33,7 @@ class SingleWeather {
         windDegree: '${weather['wind']['deg']}',
         humidity: '${weather['main']['humidity']}%',
         time: DateTime.fromMillisecondsSinceEpoch(time * 1000),
-        iconUrl:
-            'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',
+        iconCode: weather["weather"][0]["icon"],
       );
     } else {
       return SingleWeather(
@@ -43,8 +42,7 @@ class SingleWeather {
         wind: '${weather['wind']['speed']} m/s',
         humidity: '${weather['main']['humidity']}%',
         time: DateTime.parse(weather['dt_txt']),
-        iconUrl:
-            'http://openweathermap.org/img/wn/${weather["weather"][0]["icon"]}@2x.png',
+        iconCode: weather["weather"][0]["icon"],
       );
     }
   }

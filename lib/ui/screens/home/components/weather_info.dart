@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/ui/screens/home/components/weather_forecast_card.dart';
+import 'package:weather_app/ui/screens/home/components/weather_icon.dart';
 import 'package:weather_app/ui/shared/app_styles.dart';
 
 class WeatherInfo extends StatelessWidget {
@@ -36,7 +38,8 @@ class WeatherInfo extends StatelessWidget {
                     .add_Hm()
                     .format(snapshot.data.currentWeather.time)),
                 const SizedBox(height: 16),
-                Image.network(snapshot.data.currentWeather.iconUrl),
+                WeatherIcon(
+                    iconCode: snapshot.data.currentWeather.iconCode, size: 96),
                 const SizedBox(height: 16),
               ],
             ),
