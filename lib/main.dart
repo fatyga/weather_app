@@ -1,3 +1,4 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
@@ -11,6 +12,7 @@ import 'package:weather_app/weather_app.dart';
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+  await CountryCodes.init();
   Repository repo = Repository();
   final prefs = await SharedPreferences.getInstance();
   bool? savedDarkTheme = await prefs.getBool('darkTheme');

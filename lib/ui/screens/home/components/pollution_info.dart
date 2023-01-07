@@ -1,3 +1,4 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
@@ -21,17 +22,24 @@ class PollutionInfo extends StatelessWidget {
           } else {
             return Column(
               children: [
-                (bloc.currentLocation.autoDetected)
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            const Icon(Icons.location_on_outlined, size: 20),
-                            Text(bloc.currentLocation.name,
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                          ])
-                    : Text(bloc.currentLocation.name,
+                Row(
+                  textBaseline: TextBaseline.alphabetic,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  children: [
+                    (bloc.currentLocation.autoDetected)
+                        ? const Icon(Icons.location_on_outlined, size: 20)
+                        : Container(),
+                    Text(bloc.currentLocation.name,
                         style: Theme.of(context).textTheme.headlineSmall),
+                    Text(
+                        ', ${CountryCodes.detailsForLocale(Locale('en', bloc.currentLocation.countryCode)).localizedName}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2!
+                            .copyWith(color: Colors.grey)),
+                  ],
+                ),
                 const SizedBox(height: 2),
                 Text(
                   DateFormat.yMMMEd()

@@ -1,10 +1,9 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/ui/screens/home/components/weather_forecast_card.dart';
 import 'package:weather_app/ui/screens/home/components/weather_icon.dart';
-import 'package:weather_app/ui/shared/app_styles.dart';
 
 class WeatherInfo extends StatelessWidget {
   WeatherInfo({Key? key}) : super(key: key);
@@ -22,17 +21,24 @@ class WeatherInfo extends StatelessWidget {
           return Column(children: [
             Column(
               children: [
-                (bloc.currentLocation.autoDetected)
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            const Icon(Icons.location_on_outlined, size: 20),
-                            Text(bloc.currentLocation.name,
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                          ])
-                    : Text(bloc.currentLocation.name,
+                Row(
+                  textBaseline: TextBaseline.alphabetic,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  children: [
+                    (bloc.currentLocation.autoDetected)
+                        ? const Icon(Icons.location_on_outlined, size: 20)
+                        : Container(),
+                    Text(bloc.currentLocation.name,
                         style: Theme.of(context).textTheme.headlineSmall),
+                    Text(
+                        ', ${CountryCodes.detailsForLocale(Locale('en', bloc.currentLocation.countryCode)).localizedName}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2!
+                            .copyWith(color: Colors.grey)),
+                  ],
+                ),
                 const SizedBox(height: 2),
                 Text(DateFormat.yMMMEd()
                     .add_Hm()
