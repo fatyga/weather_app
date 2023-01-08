@@ -2,20 +2,31 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:weather_app/core/failure.dart';
+import 'package:weather_app/core/models/location_timezone.dart';
 import 'package:weather_app/core/models/single_location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/core/services/timezone_service.dart';
 
 class LocationService {
-  Future<SingleLocation> getCoordinatesFromName(String cityName) async {
+  Future<List<SingleLocation>?> getCoordinatesFromName(String cityName) async {
     try {
       Response response = await get(Uri.parse(
-          'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
+          'http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=5&appid=1ba4d9aff1b4abdd1c75871989db2ded'));
 
       dynamic result = jsonDecode(response.body);
-      var timezone = await TimezoneService()
-          .getTimezoneFromCoordinates(result[0]['lat'], result[0]['lon']);
-      return SingleLocation.fromMap(result[0], timezone);
+      if (result.length == 0) {
+        return null;
+      } else {
+        List<LocationTimezone> timezones = [];
+        for (int i = 0; i < result.length; i++) {
+          LocationTimezone timezone =
+              await getTimezone(result[i]['lat'], result[i]['lon']);
+          timezones.add(timezone);
+        }
+
+        return List.generate(result.length,
+            (index) => SingleLocation.fromMap(result[index], timezones[index]));
+      }
     } on SocketException {
       throw const Failure(message: 'Check your internet connection.');
     } on HttpException {
@@ -23,6 +34,10 @@ class LocationService {
     } on FormatException {
       throw const Failure(message: 'Bad response format.');
     }
+  }
+
+  Future<LocationTimezone> getTimezone(double lat, double lon) async {
+    return await TimezoneService().getTimezoneFromCoordinates(lat, lon);
   }
 
   Future<SingleLocation> getNameFromCoordinates(

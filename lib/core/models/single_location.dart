@@ -5,6 +5,7 @@ class SingleLocation {
   double longitude;
   String name;
   String countryCode;
+  String? state;
   bool autoDetected;
   LocationTimezone timezone;
 
@@ -14,6 +15,7 @@ class SingleLocation {
       required this.name,
       required this.countryCode,
       this.autoDetected = false,
+      this.state,
       required this.timezone});
 
   factory SingleLocation.fromMap(
@@ -23,6 +25,7 @@ class SingleLocation {
         longitude: map['lon'],
         name: map['name'],
         countryCode: map['country'],
+        state: map['state'],
         timezone: timezone);
   }
 

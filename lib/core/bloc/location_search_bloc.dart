@@ -7,14 +7,15 @@ class LocationSearchBloc {
   final Repository _repository;
   LocationSearchBloc(this._repository);
 
-  Future<void> getLocationFromName(String name) async {
-    final location =
+  Future<List<SingleLocation>?> searchLocationsByName(String name) async {
+    final locations =
         await _repository.locationService.getCoordinatesFromName(name);
-    _repository.getlocation(location);
+    return locations;
+    // _repository.getlocation(location);
 
-    if (!_repository.recentLocations.any((loc) => loc.name == location.name)) {
-      _repository.recentLocations.add(location);
-    }
+    // if (!_repository.recentLocations.any((loc) => loc.name == location.name)) {
+    //   _repository.recentLocations.add(location);
+    // }
   }
 
   List<SingleLocation> get recentLocations => _repository.recentLocations;

@@ -27,6 +27,9 @@ class Repository {
 
   BehaviorSubject<SingleLocation> _location = BehaviorSubject<SingleLocation>();
 
+  BehaviorSubject<List<SingleLocation>> _searchedLocations =
+      BehaviorSubject<List<SingleLocation>>();
+
   BehaviorSubject<Status> _status = BehaviorSubject<Status>();
 
   BehaviorSubject<ThemeMode> _theme = BehaviorSubject<ThemeMode>();
@@ -70,12 +73,16 @@ class Repository {
   Function(Weather) get getWeather => _weather.sink.add;
   Function(Pollution) get getPollution => _pollution.sink.add;
   Function(SingleLocation) get getlocation => _location.sink.add;
+  Function(List<SingleLocation>) get getSearchedlocation =>
+      _searchedLocations.sink.add;
   Function(Status) get getStatus => _status.sink.add;
   Function(ThemeMode) get getTheme => _theme.sink.add;
 
   // outputs
   Stream<SingleLocation> get location => _location.stream;
   SingleLocation get currentLocation => _location.value;
+  Stream<List<SingleLocation>> get searchedLocations =>
+      _searchedLocations.stream;
 
   Stream<Weather> get weather {
     if (firstInitialization) {

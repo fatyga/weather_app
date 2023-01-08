@@ -1,5 +1,7 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
+import 'package:weather_app/core/models/single_location.dart';
 import 'package:weather_app/core/services/location_service.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 
@@ -14,6 +16,8 @@ class LocationSearch extends StatefulWidget {
 class _CitySearchState extends State<LocationSearch> {
   final cityNameController = TextEditingController();
   String errors = '';
+  bool isSearching = false;
+  late Future<List<SingleLocation>?> searchResults;
 
   @override
   Widget build(BuildContext context) {
@@ -22,44 +26,129 @@ class _CitySearchState extends State<LocationSearch> {
         body: Column(
       children: [
         TextField(
+          onChanged: (value) {
+            if (isSearching == false) {
+              setState(() {
+                isSearching = !isSearching;
+              });
+            }
+
+            if (value.isNotEmpty) {
+              setState(() {
+                searchResults = bloc.searchLocationsByName(value);
+              });
+            } else {
+              setState(() {
+                isSearching = !isSearching;
+              });
+            }
+          },
           controller: cityNameController,
-          decoration: const InputDecoration(filled: true, labelText: 'City'),
+          decoration:
+              const InputDecoration(filled: true, hintText: 'Start typing...'),
         ),
         const SizedBox(height: 8),
         Text(errors, style: const TextStyle(color: Colors.red)),
-        ElevatedButton(
-            onPressed: () async {
-              setState(() {
-                errors = '';
-              });
-              if (cityNameController.text.isNotEmpty) {
-                bloc.getLocationFromName(cityNameController.text);
-                widget.backToWeather();
-              }
-            },
-            child: const Text('Search')),
         const SizedBox(height: 20),
-        Text('Recent locations', style: Theme.of(context).textTheme.subtitle2),
-        Flexible(
-          child: ListView.builder(
-              itemCount: bloc.recentLocations.length,
-              itemBuilder: (context, index) {
-                final title = bloc.recentLocations[index].autoDetected
-                    ? Row(children: [
-                        const Icon(Icons.location_on_outlined, size: 20),
-                        Text(bloc.recentLocations[index].name),
-                      ])
-                    : Text(bloc.recentLocations[index].name);
-
-                return ListTile(
-                    title: title,
-                    onTap: () {
-                      bloc.getLocation(bloc.recentLocations[index]);
-                      widget.backToWeather();
-                    });
-              }),
-        )
+        isSearching
+            ? SearchResult(result: searchResults)
+            : RecentLocations(
+                locations: bloc.recentLocations,
+                onTap: (index) {
+                  bloc.getLocation(bloc.recentLocations[index]);
+                  widget.backToWeather();
+                })
       ],
     ));
+  }
+}
+
+class RecentLocations extends StatelessWidget {
+  const RecentLocations(
+      {super.key, required this.locations, required this.onTap});
+  final List<SingleLocation> locations;
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text('Recent locations',
+              style: Theme.of(context).textTheme.subtitle2),
+          const SizedBox(height: 16),
+          Flexible(
+            child: ListView.builder(
+                itemCount: locations.length,
+                itemBuilder: (context, index) {
+                  final title = locations[index].autoDetected
+                      ? Row(children: [
+                          const Icon(Icons.location_on_outlined, size: 20),
+                          Text(locations[index].name),
+                        ])
+                      : Text(locations[index].name);
+
+                  return ListTile(
+                    title: title,
+                    onTap: () {
+                      onTap(index);
+                    },
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchResult extends StatelessWidget {
+  const SearchResult({super.key, required this.result});
+  final Future<List<SingleLocation>?> result;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(children: [
+        Text('Searched locations',
+            style: Theme.of(context).textTheme.subtitle2),
+        const SizedBox(height: 16),
+        FutureBuilder(
+            future: result,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return const Text('Error occured');
+                } else {
+                  if (snapshot.hasData) {
+                    return Flexible(
+                      child: ListView(
+                          children: snapshot.data!
+                              .map((location) => ListTile(
+                                    title: Text(location.name),
+                                    subtitle: Row(
+                                      children: [
+                                        Text(CountryCodes.detailsForLocale(
+                                                Locale(
+                                                    'en', location.countryCode))
+                                            .localizedName!),
+                                        const VerticalDivider(),
+                                        Text(location.state ?? ''),
+                                      ],
+                                    ),
+                                  ))
+                              .toList()),
+                    );
+                  } else {
+                    return const Text('0 locations found');
+                  }
+                }
+              }
+              return Container();
+            })
+      ]),
+    );
   }
 }
