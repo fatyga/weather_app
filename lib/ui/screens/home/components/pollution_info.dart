@@ -47,6 +47,11 @@ class PollutionInfo extends StatelessWidget {
                       .format(snapshot.data.currentPollution.time),
                 ),
                 const SizedBox(height: 32),
+                Icon(
+                  SinglePollution.icons[snapshot.data.currentPollution.aqi],
+                  size: 64,
+                ),
+                const SizedBox(height: 32),
                 Text(
                     SinglePollution
                         .descriptions[snapshot.data.currentPollution.aqi],

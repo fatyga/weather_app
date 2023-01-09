@@ -51,7 +51,16 @@ class _CitySearchState extends State<LocationSearch> {
         Text(errors, style: const TextStyle(color: Colors.red)),
         const SizedBox(height: 20),
         isSearching
-            ? SearchResult(result: searchResults)
+            ? SearchResult(
+                result: searchResults,
+                onTap: (SingleLocation location) {
+                  bloc.getLocation(location);
+                  if (!bloc.recentLocations.any(
+                      (element) => element.name == location.autoDetected)) {
+                    bloc.recentLocations.add(location);
+                  }
+                  widget.backToWeather();
+                })
             : RecentLocations(
                 locations: bloc.recentLocations,
                 onTap: (index) {
@@ -89,7 +98,18 @@ class RecentLocations extends StatelessWidget {
                       : Text(locations[index].name);
 
                   return ListTile(
-                    title: title,
+                    title: Row(children: [
+                      (locations[index].autoDetected)
+                          ? Icon(Icons.location_on_outlined)
+                          : Container(),
+                      Text(locations[index].name),
+                      Text(
+                          ', ${CountryCodes.detailsForLocale(Locale('en', locations[index].countryCode)).localizedName!}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(color: Colors.grey)),
+                    ]),
                     onTap: () {
                       onTap(index);
                     },
@@ -103,8 +123,9 @@ class RecentLocations extends StatelessWidget {
 }
 
 class SearchResult extends StatelessWidget {
-  const SearchResult({super.key, required this.result});
+  const SearchResult({super.key, required this.result, required this.onTap});
   final Future<List<SingleLocation>?> result;
+  final Function(SingleLocation) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -127,17 +148,21 @@ class SearchResult extends StatelessWidget {
                       child: ListView(
                           children: snapshot.data!
                               .map((location) => ListTile(
-                                    title: Text(location.name),
-                                    subtitle: Row(
+                                    onTap: () {
+                                      onTap(location);
+                                    },
+                                    title: Row(
                                       children: [
-                                        Text(CountryCodes.detailsForLocale(
-                                                Locale(
-                                                    'en', location.countryCode))
-                                            .localizedName!),
-                                        const VerticalDivider(),
-                                        Text(location.state ?? ''),
+                                        Text(location.name),
+                                        Text(
+                                            ', ${CountryCodes.detailsForLocale(Locale('en', location.countryCode)).localizedName!}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2!
+                                                .copyWith(color: Colors.grey)),
                                       ],
                                     ),
+                                    subtitle: Text(location.state ?? ''),
                                   ))
                               .toList()),
                     );

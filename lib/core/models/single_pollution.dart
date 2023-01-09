@@ -10,6 +10,14 @@ class SinglePollution {
     'Very Poor'
   ];
 
+  static List icons = <IconData>[
+    Icons.mood,
+    Icons.mood,
+    Icons.sentiment_neutral_outlined,
+    Icons.mood_bad_outlined,
+    Icons.sentiment_very_dissatisfied_outlined,
+  ];
+
   static List colors = <Color>[
     Colors.green,
     Colors.lightGreen,
