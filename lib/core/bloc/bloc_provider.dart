@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/home_bloc.dart';
 import 'package:weather_app/core/bloc/location_search_bloc.dart';
 import 'package:weather_app/core/bloc/pollution_info_bloc.dart';
-import 'package:weather_app/core/bloc/themeBloc.dart';
+import 'package:weather_app/core/bloc/theme_bloc.dart';
 import 'package:weather_app/core/bloc/weather_info_bloc.dart';
 
 class BlocProvider extends InheritedWidget {

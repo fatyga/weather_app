@@ -7,17 +7,20 @@ class LocationSearchBloc {
   final Repository _repository;
   LocationSearchBloc(this._repository);
 
-  Future<List<SingleLocation>?> searchLocationsByName(String name) async {
-    final locations =
-        await _repository.locationService.getCoordinatesFromName(name);
-    return locations;
-    // _repository.getlocation(location);
+  final StreamController<String> _locationController =
+      StreamController<String>.broadcast();
 
-    // if (!_repository.recentLocations.any((loc) => loc.name == location.name)) {
-    //   _repository.recentLocations.add(location);
-    // }
-  }
+  // inputs
+  Function(String) get searchByLocationName => _locationController.sink.add;
+
+  // outputs
+  Stream<List<SingleLocation>?> get searchLocation => _locationController.stream
+      .debounceTime(const Duration(milliseconds: 100))
+      .switchMap((locationName) => _repository.locationService
+          .getCoordinatesFromName(locationName)
+          .asStream()
+          .startWith(null));
 
   List<SingleLocation> get recentLocations => _repository.recentLocations;
-  Function(SingleLocation) get getLocation => _repository.getlocation;
+  Function(SingleLocation) get setLocation => _repository.setlocation;
 }
