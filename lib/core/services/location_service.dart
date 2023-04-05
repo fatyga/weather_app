@@ -15,7 +15,7 @@ class LocationService {
 
       dynamic result = jsonDecode(response.body);
       if (result.length == 0) {
-        return null;
+        return [];
       } else {
         List<LocationTimezone> timezones = [];
         for (int i = 0; i < result.length; i++) {

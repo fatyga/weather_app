@@ -120,31 +120,34 @@ class SearchResult extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.data == null) {
                 return const CircularProgressIndicator();
-              }
-              return Flexible(
-                child: ListView(
-                    children: snapshot.data!
-                        .map((location) => ListTile(
-                              onTap: () {
-                                bloc.setLocation(location);
+              } else if (snapshot.data!.isEmpty) {
+                return const Text('0 results. Try correcting location name.');
+              } else {
+                return Flexible(
+                  child: ListView(
+                      children: snapshot.data!
+                          .map((location) => ListTile(
+                                onTap: () {
+                                  bloc.setLocation(location);
 
-                                backToWeather();
-                              },
-                              title: Row(
-                                children: [
-                                  Text(location.name),
-                                  Text(
-                                      ', ${CountryCodes.detailsForLocale(Locale('en', location.countryCode)).localizedName!}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall!
-                                          .copyWith(color: Colors.grey)),
-                                ],
-                              ),
-                              subtitle: Text(location.state ?? ''),
-                            ))
-                        .toList()),
-              );
+                                  backToWeather();
+                                },
+                                title: Row(
+                                  children: [
+                                    Text(location.name),
+                                    Text(
+                                        ', ${CountryCodes.detailsForLocale(Locale('en', location.countryCode)).localizedName!}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(color: Colors.grey)),
+                                  ],
+                                ),
+                                subtitle: Text(location.state ?? ''),
+                              ))
+                          .toList()),
+                );
+              }
             })
       ]),
     );

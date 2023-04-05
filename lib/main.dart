@@ -18,10 +18,10 @@ void main() async {
   bool? savedDarkTheme = await prefs.getBool('darkTheme');
 
   runApp(BlocProvider(
-      child: MyApp(savedDarkTheme: savedDarkTheme),
       weatherInfoBloc: WeatherInfoBloc(repo),
       locationSearchBloc: LocationSearchBloc(repo),
       pollutionInfoBloc: PollutionInfoBloc(repo),
-      themeBloc: ThemeBloc(repo),
-      homeBloc: HomeBloc(repo)));
+      themeBloc: ThemeBloc(),
+      homeBloc: HomeBloc(repo),
+      child: MyApp(savedDarkTheme: savedDarkTheme)));
 }

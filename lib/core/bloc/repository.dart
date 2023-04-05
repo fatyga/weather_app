@@ -42,16 +42,8 @@ class Repository {
 
   final BehaviorSubject<Status> _status = BehaviorSubject<Status>();
 
-  final BehaviorSubject<ThemeMode> _theme = BehaviorSubject<ThemeMode>();
-
   void setStatus(StatusState newStatus, String? comment, [Function()? action]) {
     _status.sink.add(Status(newStatus, comment, action));
-  }
-
-  void toggleTheme(bool isDark) async {
-    isDark ? _theme.add(ThemeMode.dark) : _theme.add(ThemeMode.light);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('darkTheme', isDark);
   }
 
   Future<void> getUserLocation() async {
@@ -86,7 +78,6 @@ class Repository {
   Function(List<SingleLocation>) get getSearchedlocation =>
       _searchedLocations.sink.add;
   Function(Status) get getStatus => _status.sink.add;
-  Function(ThemeMode) get getTheme => _theme.sink.add;
 
   // outputs
   Stream<SingleLocation> get location => _location.stream;
@@ -106,5 +97,4 @@ class Repository {
   Stream<Pollution> get pollution => _pollution.stream;
 
   Stream<Status> get status => _status.stream;
-  Stream<ThemeMode> get theme => _theme.stream;
 }

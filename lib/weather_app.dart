@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     }
 
     return StreamBuilder(
-      stream: themeBloc.theme,
+      stream: themeBloc.themeStream,
       builder: (context, themeMode) => MaterialApp(
           theme: lightTheme,
           darkTheme: darkTheme,
