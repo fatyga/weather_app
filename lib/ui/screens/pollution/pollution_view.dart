@@ -4,15 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/core/constants/enums.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
-import 'package:weather_app/ui/screens/home/components/pollution_components_overview.dart';
-import 'package:weather_app/ui/screens/home/components/pollution_forecast.dart';
+import 'package:weather_app/ui/screens/pollution/components/pollution_components_overview.dart';
+import 'package:weather_app/ui/screens/pollution/components/pollution_forecast.dart';
 
-class PollutionInfo extends StatelessWidget {
-  const PollutionInfo({super.key});
+import '../../../core/bloc/pollution_info_bloc.dart';
+
+class PollutionView extends StatelessWidget {
+  const PollutionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of(context).pollutionInfoBloc;
+    final bloc = BlocProvider.of<PollutionInfoBloc>(context);
 
     return StreamBuilder<Object>(
         stream: bloc.info,

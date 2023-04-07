@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather_app/core/bloc/bloc.dart';
 
-class ThemeBloc {
+class ThemeBloc implements Bloc {
   final StreamController<ThemeMode> _themeController =
       StreamController<ThemeMode>();
 
@@ -15,5 +16,10 @@ class ThemeBloc {
         : _themeController.add(ThemeMode.light);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('darkTheme', isDark);
+  }
+
+  @override
+  void dispose() {
+    _themeController.close();
   }
 }

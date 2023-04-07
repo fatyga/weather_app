@@ -5,22 +5,22 @@ import 'package:weather_app/core/models/single_location.dart';
 
 import '../../../core/bloc/location_search_bloc.dart';
 
-class LocationSearch extends StatefulWidget {
-  const LocationSearch({super.key, required this.backToWeather});
+class LocationSearchView extends StatefulWidget {
+  const LocationSearchView({super.key, required this.backToWeather});
   final Function() backToWeather;
 
   @override
-  State<LocationSearch> createState() => _CitySearchState();
+  State<LocationSearchView> createState() => _CitySearchState();
 }
 
-class _CitySearchState extends State<LocationSearch> {
+class _CitySearchState extends State<LocationSearchView> {
   final cityNameController = TextEditingController();
   String errors = '';
   bool isSearching = false;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of(context).locationSearchBloc;
+    final bloc = BlocProvider.of<LocationSearchBloc>(context);
     return Scaffold(
         body: Column(
       children: [

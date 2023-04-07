@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/constants/enums.dart';
 import 'package:weather_app/core/models/single_pollution.dart';
-import 'package:weather_app/ui/screens/home/components/pollution_components_overview.dart';
+import 'package:weather_app/ui/screens/pollution/components/pollution_components_overview.dart';
 
 class AirPollutionForecast extends StatefulWidget {
   const AirPollutionForecast({

@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/core/bloc/home_bloc.dart';
-import 'package:weather_app/core/bloc/location_search_bloc.dart';
-import 'package:weather_app/core/bloc/pollution_info_bloc.dart';
-import 'package:weather_app/core/bloc/theme_bloc.dart';
-import 'package:weather_app/core/bloc/weather_info_bloc.dart';
+import 'bloc.dart';
 
-class BlocProvider extends InheritedWidget {
-  final WeatherInfoBloc weatherInfoBloc;
-  final PollutionInfoBloc pollutionInfoBloc;
-  final LocationSearchBloc locationSearchBloc;
-  final ThemeBloc themeBloc;
-  final HomeBloc homeBloc;
-
-  const BlocProvider(
-      {Key? key,
-      required this.weatherInfoBloc,
-      required this.pollutionInfoBloc,
-      required this.locationSearchBloc,
-      required this.homeBloc,
-      required this.themeBloc,
-      required Widget child})
-      : super(key: key, child: child);
+class BlocProvider<T extends Bloc> extends StatefulWidget {
+  const BlocProvider({super.key, required this.bloc, required this.child});
+  final T bloc;
+  final Widget child;
 
   @override
-  bool updateShouldNotify(Widget oldWidget) => true;
+  BlocProviderState createState() => BlocProviderState<T>();
 
-  static BlocProvider of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<BlocProvider>()!;
+  static T of<T extends Bloc>(BuildContext context) {
+    return context.findAncestorWidgetOfExactType<BlocProvider<T>>()!.bloc;
   }
 }
+
+class BlocProviderState<T extends Bloc> extends State<BlocProvider> {
+  @override
+  Widget build(BuildContext context) => widget.child;
+
+  @override
+  void dispose() {
+    widget.bloc.dispose();
+    super.dispose();
+  }
+}
+
+// class BlocInheritedWidget<T extends Bloc> extends InheritedWidget {
+//   final T bloc;
+//   final Widget child;
+
+//   const BlocInheritedWidget({Key? key, required this.bloc, required this.child})
+//       : super(key: key, child: child);
+
+//   @override
+//   bool updateShouldNotify(Widget oldWidget) => true;
+// }

@@ -5,12 +5,14 @@ import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/ui/screens/home/components/weather_forecast_card.dart';
 import 'package:weather_app/ui/screens/home/components/weather_icon.dart';
 
-class WeatherInfo extends StatelessWidget {
-  WeatherInfo({Key? key}) : super(key: key);
+import '../../../core/bloc/weather_info_bloc.dart';
+
+class WeatherView extends StatelessWidget {
+  const WeatherView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of(context).weatherInfoBloc;
+    final bloc = BlocProvider.of<WeatherInfoBloc>(context);
 
     return StreamBuilder<Object>(
         stream: bloc.info,

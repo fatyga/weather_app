@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
 import 'package:weather_app/core/models/status.dart';
 import 'package:weather_app/ui/screens/home/components/status_bar.dart';
-import 'package:weather_app/ui/screens/location_search/location_search.dart';
-import 'package:weather_app/ui/screens/home/components/pollution_info.dart';
-import 'package:weather_app/ui/screens/home/components/weather_info.dart';
+import 'package:weather_app/ui/screens/pollution/pollution_page.dart';
 import 'package:weather_app/ui/screens/settings/settings.dart';
+import 'package:weather_app/ui/screens/weather/weather_page.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+import '../../../core/bloc/home_bloc.dart';
+import '../location_search/location_search_page.dart';
+
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeViewState extends State<HomeView> {
   int index = 0;
 
   late List<Widget> pages;
@@ -22,9 +24,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     pages = [
-      WeatherInfo(),
-      PollutionInfo(),
-      LocationSearch(backToWeather: () => setIndex(0))
+      const WeatherPage(),
+      const PollutionPage(),
+      LocationSearchPage(backToWeather: () => setIndex(0))
     ];
     super.initState();
   }
@@ -37,7 +39,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of(context).homeBloc;
+    final bloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: StreamBuilder(

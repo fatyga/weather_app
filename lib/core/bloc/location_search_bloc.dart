@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
-import 'package:weather_app/core/bloc/repository.dart';
+import 'package:weather_app/core/repositories/weather_repository.dart';
 import 'package:weather_app/core/models/single_location.dart';
 
-class LocationSearchBloc {
-  final Repository _repository;
+import 'bloc.dart';
+
+class LocationSearchBloc implements Bloc {
+  final WeatherRepository _repository;
   LocationSearchBloc(this._repository);
 
   final StreamController<String> _locationController =
@@ -23,4 +25,9 @@ class LocationSearchBloc {
 
   List<SingleLocation> get recentLocations => _repository.recentLocations;
   Function(SingleLocation) get setLocation => _repository.setlocation;
+
+  @override
+  void dispose() {
+    _locationController.close();
+  }
 }

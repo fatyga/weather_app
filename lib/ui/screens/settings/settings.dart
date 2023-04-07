@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
+
+import '../../../core/bloc/theme_bloc.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -20,7 +20,7 @@ class _SettingsState extends State<Settings> {
           title: Text('Dark Theme'),
           trailing: Switch(
               onChanged: (newValue) {
-                BlocProvider.of(context).themeBloc.toggleTheme(newValue);
+                BlocProvider.of<ThemeBloc>(context).toggleTheme(newValue);
               },
               value: Theme.of(context).brightness == Brightness.dark),
         )

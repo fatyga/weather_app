@@ -7,13 +7,14 @@ import 'package:weather_app/core/models/pollution.dart';
 import 'package:weather_app/core/models/single_location.dart';
 import 'package:weather_app/core/models/status.dart';
 import 'package:weather_app/core/models/weather.dart';
+import 'package:weather_app/core/repositories/repository.dart';
 import 'package:weather_app/core/services/location_service.dart';
 import 'package:weather_app/core/services/pollution_service.dart';
 import 'package:weather_app/core/services/weather_service.dart';
 import 'package:intl/intl.dart';
 
-class Repository {
-  Repository() {
+class WeatherRepository implements Repository {
+  WeatherRepository() {
     _location.listen((location) {
       if (!recentLocations
           .any((recentLocation) => location.name == recentLocation.name)) {
@@ -97,4 +98,9 @@ class Repository {
   Stream<Pollution> get pollution => _pollution.stream;
 
   Stream<Status> get status => _status.stream;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+  }
 }
