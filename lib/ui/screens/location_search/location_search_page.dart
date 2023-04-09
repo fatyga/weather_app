@@ -7,17 +7,36 @@ import '../../../core/repositories/provider.dart';
 import '../../../core/repositories/weather_repository.dart';
 import '../weather/weather_view.dart';
 
-class LocationSearchPage extends StatelessWidget {
+class LocationSearchPage extends StatefulWidget {
   const LocationSearchPage({super.key, required this.backToWeather});
   final VoidCallback backToWeather;
 
   @override
+  State<LocationSearchPage> createState() => _LocationSearchPageState();
+}
+
+class _LocationSearchPageState extends State<LocationSearchPage> {
+  late LocationSearchBloc locationSearchBloc;
+
+  @override
+  void initState() {
+    locationSearchBloc =
+        LocationSearchBloc(RepositoryProvider.of<WeatherRepository>(context));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    locationSearchBloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<LocationSearchBloc>(
-        bloc: LocationSearchBloc(
-            RepositoryProvider.of<WeatherRepository>(context)),
+        bloc: locationSearchBloc,
         child: LocationSearchView(
-          backToWeather: backToWeather,
+          backToWeather: widget.backToWeather,
         ));
   }
 }

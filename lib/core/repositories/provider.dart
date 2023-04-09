@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/repositories/repository.dart';
-import 'repository.dart';
 
 class RepositoryProvider<T extends Repository> extends StatefulWidget {
   const RepositoryProvider(
