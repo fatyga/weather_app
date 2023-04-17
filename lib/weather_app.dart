@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/ui/screens/home/home_page.dart';
-import 'package:weather_app/ui/screens/home/home_view.dart';
 import 'package:weather_app/ui/shared/theme/dark_theme.dart';
 import 'package:weather_app/ui/shared/theme/light_theme.dart';
 

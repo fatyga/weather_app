@@ -38,7 +38,7 @@ class PollutionView extends StatelessWidget {
                         ', ${CountryCodes.detailsForLocale(Locale('en', bloc.currentLocation.countryCode)).localizedName}',
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(color: Colors.grey)),
                   ],
                 ),
@@ -71,7 +71,7 @@ class PollutionView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('Next hours',
-                          style: Theme.of(context).textTheme.subtitle2),
+                          style: Theme.of(context).textTheme.titleSmall),
                     ],
                   ),
                 ),
