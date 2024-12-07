@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'single_location.dart';
 import 'single_weather.dart';
 

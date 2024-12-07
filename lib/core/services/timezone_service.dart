@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -9,7 +11,7 @@ class TimezoneService {
   Future<LocationTimezone> getTimezoneFromCoordinates(
       double latitude, double longitude) async {
     Response response = await get(Uri.parse(
-        'https://www.timeapi.io/api/TimeZone/coordinate?latitude=${latitude}&longitude=${longitude}'));
+        'https://www.timeapi.io/api/TimeZone/coordinate?latitude=$latitude&longitude=$longitude'));
     return LocationTimezone.fromMap(jsonDecode(response.body));
   }
 }

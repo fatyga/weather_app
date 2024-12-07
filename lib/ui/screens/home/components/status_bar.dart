@@ -70,7 +70,7 @@ class Bar extends StatelessWidget {
             Text(comment ?? '',
                 style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.normal))
           ])),
     );

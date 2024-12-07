@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/bloc/location_search_bloc.dart';
 import 'package:weather_app/ui/screens/location_search/location_search_view.dart';

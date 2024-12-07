@@ -11,7 +11,7 @@ class PollutionInfoBloc implements Bloc {
   final WeatherRepository _repository;
   late StreamSubscription _locationChangesSubscription;
   late StreamSubscription _pollutionChangesSubscription;
-  StreamController<Pollution> _controller = StreamController<Pollution>();
+  final StreamController<Pollution> _controller = StreamController<Pollution>();
 
   PollutionInfoBloc(WeatherRepository repository) : _repository = repository {
     _locationChangesSubscription = _repository.location.listen((event) async {

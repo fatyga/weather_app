@@ -11,7 +11,7 @@ class WeatherInfoBloc implements Bloc {
   final WeatherRepository _repository;
   late StreamSubscription _locationChangesSubscription;
   late StreamSubscription _weatherChangesSubscription;
-  StreamController<Weather> _controller = StreamController<Weather>();
+  final StreamController<Weather> _controller = StreamController<Weather>();
 
   WeatherInfoBloc(WeatherRepository repository) : _repository = repository {
     _locationChangesSubscription = _repository.location.listen((event) async {

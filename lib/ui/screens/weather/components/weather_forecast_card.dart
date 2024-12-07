@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +17,7 @@ class WeatherForecastCard extends StatefulWidget {
 class _WeatherForecastCardState extends State<WeatherForecastCard> {
   bool extended = false;
 
-  void toogleSide() {
+  void toggleSide() {
     setState(() {
       extended = !extended;
     });
@@ -26,20 +28,20 @@ class _WeatherForecastCardState extends State<WeatherForecastCard> {
     return Card(
       elevation: 4.0,
       child: InkWell(
-        onTap: toogleSide,
+        onTap: toggleSide,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Row(
             children: [
               Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(DateFormat.Hm().format(widget.weather.time)),
                     WeatherIcon(iconCode: widget.weather.iconCode, size: 72),
                     Text(widget.weather.temp),
                   ]),
-              extended ? const VerticalDivider() : Container(),
-              showSide(),
+              // extended ? const VerticalDivider() : Container(),
+              // showSide(),
             ],
           ),
         ),

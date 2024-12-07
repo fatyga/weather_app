@@ -2,13 +2,14 @@ import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/core/bloc/bloc_provider.dart';
-import 'package:weather_app/ui/screens/home/components/weather_forecast_card.dart';
+import 'package:weather_app/ui/screens/weather/components/weather_forecast.dart';
+import 'package:weather_app/ui/screens/weather/components/weather_forecast_card.dart';
 import 'package:weather_app/ui/screens/home/components/weather_icon.dart';
 
 import '../../../core/bloc/weather_info_bloc.dart';
 
 class WeatherView extends StatelessWidget {
-  const WeatherView({Key? key}) : super(key: key);
+  const WeatherView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +29,14 @@ class WeatherView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: [
-                    (bloc.currentLocation.autoDetected)
-                        ? const Icon(Icons.location_on_outlined, size: 20)
-                        : Container(),
+                    if(bloc.currentLocation.autoDetected) const Icon(Icons.location_on_outlined, size: 20),
                     Text(bloc.currentLocation.name,
                         style: Theme.of(context).textTheme.headlineSmall),
                     Text(
                         ', ${CountryCodes.detailsForLocale(Locale('en', bloc.currentLocation.countryCode)).localizedName}',
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(color: Colors.grey)),
                   ],
                 ),
@@ -125,28 +124,11 @@ class WeatherView extends StatelessWidget {
                     ]),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Next hours',
-                      style: Theme.of(context).textTheme.subtitle2),
-                ],
-              ),
-            ),
-            Flexible(
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.nextHoursWeather.length,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(width: 8.0);
-                    },
-                    itemBuilder: (context, index) {
-                      return WeatherForecastCard(
-                          weather: snapshot.data.nextHoursWeather[index]);
-                    }))
+        const SizedBox(height:48),
+         Flexible(child: WeatherForecast(weather: snapshot.data)),
+            const SizedBox(height: 16)
           ]);
+
         });
   }
 }

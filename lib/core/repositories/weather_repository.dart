@@ -1,5 +1,6 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/core/failure.dart';
